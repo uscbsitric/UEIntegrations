@@ -1,0 +1,108 @@
+ID-615 Notes:
+
+  Client: ConvergeTrack
+				   GENERAL
+    Y-CampaignId
+    Y-SRCID 
+    N-SRCID2
+    Y-SourceDescr 
+    N-VendorLeadId 
+    N-TestMode
+				    CONTACT INFO
+    Y-FirstName
+    N-MiddleName
+    Y-LastName
+    Y-Address1
+    N-Address2
+    Y-City
+    Y-State
+    Y-Zipcode
+    Y-HomePhone
+    N-WorkPhone
+    N-Fax
+    Y-Email
+    Y-HomeOwner
+    Y-YearsAtResidence
+    Y-YearsAtPrevResidence
+
+				    DRIVER
+    Y-NumDrivers 		<--- bantayi ni dire dapit, naa ni loop dapat, based sa number of drivers nga flag
+    Y-Drv1FirstName 
+    N-Drv1MiddleName 
+    Y-Drv1LastName 
+    Y-Drv1Gender 
+    Y-Drv1DOB 
+    Y-Drv1MaritalStatus 
+    Y-Drv1Relationship 
+    Y-Drv1Occupation 
+    Y-Drv1LicenseState 
+    Y-Drv1LicenseStatus 
+    Y-Drv1AgeLicensed
+
+    N-Drv1Violation1Cd		<--- Violations(Filter of more than 2 Violations)
+    N-Drv1Violation1Dt 
+    N-Drv1Violation2Cd
+    N-Drv1Violation2Dt 
+
+    N-Drv1Accident1Cd 		<--- Accidents(Filter if more than 2 Accidents)
+    N-Drv1Accident1Dt 
+    N-Drv1Accident1BodilyAmount 
+    N-Drv1Accident1PropertyDamageAmt 
+    N-Drv1Accident2Cd
+    N-Drv1Accident2Dt 
+    N-Drv1Accident2BodilyAmount 
+    N-Drv1Accident2PropertyDamageAmt 
+
+    N-Drv1Claim1Date 		<--- Claims(Filter if more than 2 claims)
+    N-Drv1Claim1Type
+    N-Drv1Claim1Amount 
+    N-Drv1Claim2Date
+    N-Drv1Claim2Type
+    N-Drv1Claim2Amount 
+
+    N-Drv1Suspension1Date 		<--- Suspensions(Filter if more than 2 suspension)
+    N-Drv1Suspension1Type 
+    N-Drv1Suspension2Date 
+    N-Drv1Suspension2Type 
+      
+				    VEHCILE
+    Y-NumVehicles 			<--- Integer 1-4
+    Y-Veh1ModelYear 		<--- Vehicle 1 details, vehicle 1 has 1 coverage
+    Y-Veh1Make 
+    Y-Veh1Model 
+    Y-Veh1BodyStyle 
+    Y-Veh1AutomaticSeatBelts 
+    Y-Veh1AntiLockBrakes 
+    Y-Veh1NumAribags 
+    Y-Veh1SecuritySystem 
+    Y-Veh1Leased 
+    Y-Veh1VehicleUse 
+    Y-Veh1CommuteDays 
+    Y-Veh1CommuteMiles 
+    Y-Veh1VIN 
+    Y-Veh1CompDeductible 
+    Y-Veh1AnnualMiles 
+    Y-Veh1CollDeductible 
+    Y-Veh1PrimaryDriver 
+
+    Y-Veh1BIPerPerson 		<--- Coverages
+    Y-Veh1BiPerAccident 
+    Y-Veh1PDAmount 
+    N-Veh1UmPerPersonAmount 
+    N-Veh1UmPerAccidentAmount 
+    N-Veh1UMPDAmount 
+    N-Veh1TLAmount 
+    N-Veh1RREIMMaxAmount 
+    N-Veh1RREIMPerDayAmount 
+    N-Veh1MPAmount 
+    N-Veh1UNDPDAmount 
+    N-Veh1UNDUMPerPersonAmount 
+    N-Veh1UNDUMPerAccidentAmount 
+
+
+    Y-PriorCarrierName 		<--- PriorCarrier
+    Y-PriorCarrierBiLimitPerPerson 
+    Y-PriorCarrierBiLimitPerAcc 
+    Y-TimewithCarrier 
+    Y-PriorCarrierExpirationDate 
+

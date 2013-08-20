@@ -1,0 +1,6 @@
+ID-578 Notes:
+
+  1. I do not understand the part which says "All fields that have sub-lists of bullets in the form “{User-Friendly Display Name} => {Value}” are select-style fields with specific values required."
+  2. We dont have a url to submit the .quote to
+  3. I cant find the application (exe file) for this, also if this is the case, then it will be windows based.
+  4. No instructions as to how to wrap the ".quote" formatted strings in a post request

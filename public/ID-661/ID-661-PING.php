@@ -1,0 +1,156 @@
+<?php
+    function executeCurlRequest($url, $post) 
+    {
+	$postVars = http_build_query($post);
+
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $postVars);
+	//curl_setopt($ch, CURLOPT_USERPWD, 'APItest:123TEST');
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/x-www-form-urlencoded")
+		  );
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+	$response = curl_exec($ch);
+	if (curl_errno($ch)) {
+	    $curlError = 'Curl error: ' . curl_error($ch);
+	    return $curlError;
+	}
+
+	curl_close($ch);
+
+	return $response;
+    }
+
+    $lmsData =  '{"universal_leadid":"E9CF0E79-D62E-F38D-C360-C5A77AC7DEE8",
+		  "sourcedeliveryid":"3",
+		  "sid":"autoinsquote.us",
+		  "AFID":"43074",
+		  "homephone_area":"626",
+		  "homephone_prefix":"201",
+		  "homephone_suffix":"2360",
+		  "name":"Rebeca",
+		  "firstname":"Rebeca",
+		  "lastname":"Pasillas",
+		  "emailaddress":"beckypasillas@yahoo.com",
+		  "email":"beckypasillas@yahoo.com",
+		  "address":"16904 New Pine Drive",
+		  "city":"Hacienda Heights",
+		  "_City":"Hacienda Heights",
+		  "state":"CA",
+		  "st":"CA",
+		  "_State":"CA",
+		  "zip":"91745",
+		  "_PostalCode":"91745",
+		  "homephone":"626-201-2360",
+		  "ueid":"fbso_0517af506af937_ad1_pp_6",
+		  "country_code":"1",
+		  "driver1edulevel":"Bachelors Degree",
+		  "driver1firstname":"Rebeca",
+		  "driver1lastname":"Pasillas",
+		  "driver1dob_day":"07",
+		  "driver1dob_month":"02",
+		  "driver1dob_year":"1987",
+		  "driver1gender":"Female",
+		  "driver1maritalstatus":"Single",
+		  "driver1occupation":"Advertising/Public Relations",
+		  "driver1licenseage":"18",
+		  "driver1yearsatresidence":"10",
+		  "driver1sr22":"false",
+		  "driver1credit":"Good",
+		  "driver1yearsemployed":"4",
+		  "driver1age":"26",
+		  "currentpolicyexpiration":"2013-08-01",
+		  "policystart":"2012-08-06",
+		  "insuredsince":"2011-02-12",
+		  "CURRENTINSURANCECOMPANY":"Infinity Insurance",
+		  "desiredcoveragetype":"Basic",
+		  "desiredcollisiondeductible":"500",
+		  "desiredcomprehensivedeductible":"500",
+		  "propertydamage":"300",
+		  "contact":"Morning",
+		  "yearsatresidence":"10",
+		  "bodilyinjury":"50",
+		  "vehicle1year":"2010",
+		  "vehicle1make":"Hyundai",
+		  "vehicle1model":"ACCENT",
+		  "vehicle1commuteAvgMileage":"8",
+		  "vehicle1annualMileage":"25000",
+		  "vehicle1primaryUse":"Commute",
+		  "vehicle1leased":"Owned",
+		  "vehicle1trim":"Blue",
+		  "vehicle1garageType":"Full Garage",
+		  "vehicle1alarm":"Alarm",
+		  "vehicle1ownership":"Leased",
+		  "vehicle1distance":"9",
+		  "vehicle1commutedays":"4",
+		  "vertical":"ains",
+		  "cam":"ad1_pp_6",
+		  "useragent":"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.94 Safari/537.36",
+		  "ipaddress":"252.252.211.211",
+		  "referer":"https://www.facebook.com/",
+		  "leadtype":"Life",
+		  "keyword":"social",
+		  "variant":"gadget_copy",
+		  "currentlyinsured":"1",
+		  "currentresidence":"Own",
+		  "driver2edulevel":"AA",
+		  "cookie":"2f42075a6151eec7cb8424be36d5cf4a",
+		  "keywords":"social|facebook|||social|gadget_copy",
+		  "vendoremail":"facebook",
+		  "vendorpassword":"ueint",
+		  "vendorid":"underground",
+		  "keyword_id":"2712",
+		  "variant_id":"25214",
+		  "site_id":"233",
+		  "hid":"nvt-node12",
+		  "dynotrax_id":"51ae795b91e1e77b45000005"
+		  }';
+
+    $lmsDataJsonDecoded = json_decode($lmsData, true);
+
+    $pingTestUrl   = 'http://preciseleads.com/inbound/push_test.asp';
+    $pingStaginUrl = 'http://preciseleads.com/inbound/push.asp';
+
+    preg_match('/([0-9]{4})/', $lmsDataJsonDecoded['homephone'], $last4DigitsMatches);
+
+    $response = executeCurlRequest($pingTestUrl, array('provider_id' => $lmsDataJsonDecoded['sourcedeliveryid'],
+						       'aff_subref' => $lmsDataJsonDecoded['AFID'],
+						       'lead_type' => $lmsDataJsonDecoded['leadtype'],
+						       'lead_id' => '1234560',
+						       'lead_sent' => 0,
+						       'agent_distribution' => '',
+						       'company_distribution' => '',
+						       'agent_avoid' => 'NY5445665454~FLLL5555',
+						       'company_avoid' => '1',
+						       'UniversalLeadiD' => $lmsDataJsonDecoded['universal_leadid'],
+						       'ip' => $lmsDataJsonDecoded['ipaddress'],
+						       'email' => $lmsDataJsonDecoded['email'],
+						       'zip' => $lmsDataJsonDecoded['zip'],
+						       'city' => $lmsDataJsonDecoded['city'],
+						       'state' => $lmsDataJsonDecoded['state'],
+						       'income' => 10000,
+						       'self' => 0,
+						       'gender' => ( strtolower($lmsDataJsonDecoded['driver1gender']) == 'female' ) ? 'F':'M',
+						       'birth' => $lmsDataJsonDecoded['driver1dob_month'].'/'.$lmsDataJsonDecoded['driver1dob_day'].'/'.$lmsDataJsonDecoded['driver1dob_year'],
+						       'marital' => ( strtolower($lmsDataJsonDecoded['driver1maritalstatus']) == 'single' ) ? 'S':'M',
+						       'kids' => 0,
+						       'insType' => 'NotSure',
+						       'coverage' => 55000,
+						       'insured' => ( isset($lmsDataJsonDecoded['CURRENTINSURANCECOMPANY']) ) ? 1:0,
+						       'insComp' => $lmsDataJsonDecoded['CURRENTINSURANCECOMPANY'],
+						       'education' => $lmsDataJsonDecoded['driver1edulevel'],
+						       'height1' => 5,
+						       'height2' => 8,
+						       'weight' => 135,
+						       'smoke' => 0,
+						       'preExCon' => 'None',
+						       'cancer' => 0,
+						       'drunk' => 0,
+						       'ping' => 'deep',
+						       'tele4' => $last4DigitsMatches[0]
+						      )
+				  );
+    var_dump($response);

@@ -1,0 +1,101 @@
+ID-565 notes part 2:
+
+
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Xml;
+using System.Xml.Linq; 
+
+
+// Address string of the BPMonline OData service.
+private const string serverUri = "http://<server_name>/<BPMonline_application_name>/0/ServiceModel/EntityDataService.svc/";
+private const string authServiceUtri = "http://<server_name>/<BPMonline_application_name>/ServiceModel/AuthService.svc/Login";
+
+// References to the XML namespaces.
+private static readonly XNamespace ds = "http://schemas.microsoft.com/ado/2007/08/dataservices";
+private static readonly XNamespace dsmd = "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata";
+private static readonly XNamespace atom = "http://www.w3.org/2005/Atom"; 
+
+// Request string:
+// POST <BPMonline application address>/0/ServiceModel/EntityDataService.svc/ContactCollection/
+
+public static void CreateBpmEntityByOdataHttpExample()
+{
+    // Creating an XML message that contains data about the entity being created
+    var content = new XElement(dsmd + "properties",
+							   new XElement(ds + "Name", "John Smith"),
+							   new XElement(ds + "Dear", "John")
+							  );
+							  /****** --- frederick sandalo::: will produce something like this
+							  <dsdm:properties>
+								<ds:Name>John Smit</ds:Name>
+								<ds:Dear>John</ds:Dear>
+							  </dsdm:properties>
+							  *****/
+							  
+    var entry = new XElement(atom + "entry",
+							 new XElement(atom + "content",
+										  new XAttribute("type", "application/xml"), content
+										 )	
+							);
+							  /****** --- frederick sandalo::: will produce something like this
+							  <atom:entry>
+								<atom:content type="application/xml">
+									<dsdm:properties>
+									  <ds:Name>John Smit</ds:Name>
+									  <ds:Dear>John</ds:Dear>
+								    </dsdm:properties>
+								</atom:content>
+							  </atom:entry>
+							  *****/
+
+    Console.WriteLine(entry.ToString());
+    // Creating a service request that will insert a new entity in the collection of contacts.
+    var request = (HttpWebRequest)HttpWebRequest.Create(serverUri + "ContactCollection/");
+    request.Credentials = new NetworkCredential("BPMUserName", "BPMUserPassword");
+    request.Method = "POST";
+    request.Accept = "application/atom+xml";
+    request.ContentType = "application/atom+xml;type=entry";
+    // Writing the XML message into the request stream.
+    using (var writer = XmlWriter.Create(request.GetRequestStream()))
+    {
+        entry.WriteTo(writer);
+    }
+    // Getting a service response about the result of executing the operation.
+    using (WebResponse response = request.GetResponse())
+    {
+        if (((HttpWebResponse)response).StatusCode == HttpStatusCode.Created)
+        {
+            // Processing the result of executing the operation.
+        }
+    }
+} 
+
+<entry xmlns="http://www.w3.org/2005/Atom">
+  <content type="application/xml">
+    <properties xmlns="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+      <Name xmlns="http://schemas.microsoft.com/ado/2007/08/dataservices">John Smith</Name>
+      <Dear xmlns="http://schemas.microsoft.com/ado/2007/08/dataservices">John</Dear>
+    </properties>
+  </content>
+</entry>
+
+
+
+
+
+m:type="Edm.Guid"
+<d:RegionId m:type="Edm.Guid">b28bfc4e-04e2-4d05-9ce4-74e34f55f1de</d:RegionId>
+
+
+RelationshipTypeToInsured
+
+Child				c06d6d5e-3468-4d8c-994f-39bfdd9ecb96
+Insured				5b1aa0b0-ee1a-4f4a-babc-0dd8d7d3dbfd
+Other Non-Related	59260570-5b69-460c-aaff-78de68635347
+Parent				5611d30b-c89f-4401-88ee-2f6732360d07
+Other Related		ec43fac7-88bb-45dd-97f9-7ef8fca0a71d

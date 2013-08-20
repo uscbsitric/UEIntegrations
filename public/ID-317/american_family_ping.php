@@ -1,0 +1,118 @@
+<?php
+
+    require_once __DIR__.'/../classes/pingpostCommon.php';
+
+    if ($argv[1] != "")
+	$leadid = $argv[1];
+    else
+	$leadid = $_POST["leadid"];
+
+    $pingPost = new PingPostCommon();
+    $lmsData = $pingPost->fetchLead($leadid);
+
+    $postStringVals = json_decode($lmsData['poststring'], true);
+    $vals = array_merge($lmsData, $postStringVals, $_POST);
+
+    // config
+    $sourceCode = 'UGLFNT';
+    $clientCode = 'AMFAM';
+    $campaignCode = 'AUTO';
+    $prepingUrl = 'http://test1.leadamplms.com/prospect/prospect/preping';
+    $pingUrl = 'http://test1.leadamplms.com/prospect/prospect/ping';
+
+
+    // Preping call
+    // Per LeadAmp to use 64101 zip code for testing
+    $data = array(
+	    'clientCode'        => $clientCode,
+	    'sourceCode'        => $sourceCode,
+	    'campaignCode'      => $campaignCode,
+	    'zip'               => '64101',
+	    'affiliateCode'     => $vals['vendorid'],
+	    'vendorLeadCode'    => $leadid
+	    );
+
+
+    //$prepingResponse = PingPostCommon::sendCurlRequest($prepingUrl, 'POST', $data);
+    $prepingResponse = sendCurlRequest($prepingUrl, 'POST', $data);
+
+    $responseObject = json_decode($prepingResponse);
+    $response = $responseObject->response;
+    //$response = 'qualified';
+
+    if ($response == 'qualified') {
+	// Successful in preping, now lets ping the data
+	$prepingID = $responseObject->LeadAmpID;
+	//$prepingID = '730';
+	$pingParams = array(
+	    'clientCode'        => $clientCode,
+	    'sourceCode'        => $sourceCode,
+	    'campaignCode'      => $campaignCode,
+	    'prepingID'         => $prepingID,
+	    'productCode'       => '',
+	    'vendorLeadCode'    => $leadid,
+	    'affiliateCode'     => $vals['vendorid'],
+	    'firstName'         => $vals['name'],
+	    'lastName'          => $vals['lastname'],
+	    'email'             => $vals['emailaddress'],
+	    'primaryPhone'      => $vals['homephone'],
+	    'alternatePhone'    => '',
+	    'address'           => $vals['address'],
+	    'address2'          => '',
+	    'city'              => $vals['city'],
+	    'state'             => $vals['st'],
+	    'zip'               => $vals['zip'],
+	    'country'           => 'US'
+	    );
+
+	//$pingResponse = PingPostCommon::sendCurlRequest($pingUrl, 'POST', $pingParams);
+	$pingResponse = sendCurlRequest($pingUrl, 'POST', $pingParams);
+	var_dump($pingResponse);
+
+	$pingResponseObject = json_decode($pingResponse);
+	$pingResponseStatus = $pingResponseObject->response;
+	if ($pingResponseStatus == 'qualified') {
+	    // we post the data
+	    $leadAmpID = $pingResponseObject->LeadAmpID;
+	    $decile = $pingResponseObject->decile;
+
+	} else {
+
+	    // Parse out the rejection response reason or error message
+	    echo "Ping Unsuccessful: "  . $pingResponseStatus . "\n";
+	    if ($pingResponseStatus == 'disqualified') {
+		echo "Reason: " . $pingResponseObject->reason;
+	    } elseif ($pingResponseStatus == 'error') {
+		echo "Message: " . $pingResponseObject->message;
+	    }
+	}
+
+    }
+
+    echo "\n---response---\n";
+    echo $prepingResponse . "\n\n";
+
+
+    function sendCurlRequest($url, $method = 'POST', $params = array()) {
+
+    $postVars = http_build_query($params);
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postVars);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/x-www-form-urlencoded"));
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false );
+
+    $response = curl_exec($ch);
+    if(curl_errno($ch)) {
+	$curlError = 'Curl error: ' . curl_error($ch);
+	return $curlError;
+    }
+    curl_close($ch);
+
+    return $response;
+}
+
+

@@ -1,0 +1,465 @@
+<?php
+/*****
+    require_once __DIR__.'/../classes/pingpostCommon.php';
+
+    if ($argv[1] != "")
+	$leadid = $argv[1];
+    else
+	$leadid = $_POST["leadid"];
+
+    $pingPost = new PingPostCommon();
+    $lmsData = $pingPost->fetchLead($leadid);
+*****/
+
+	function buildPostData( $postData = array() )
+	{
+		if( preg_match('/^(\d{3})(\d{6})$/', $postData['homephone'], $matches) )
+		{
+			$leadData['homephone'] = '';
+			$leadData['homephone'] = '+1-' . $matches[1] . '-' . $matches[2];
+		}
+	
+		$postData['driver1gender'] = ($postData['driver1gender'] === 'female') ? 'F' : 'M';
+	
+		switch( $postData['driver1maritalstatus'] )
+		{
+			case 'married':
+				$postData['driver1maritalstatus'] = 'M';
+				break;
+			case 'divorced':
+				$postData['driver1maritalstatus'] = 'D';
+				break;
+			case 'widowed':
+				$postData['driver1maritalstatus'] = 'W';
+				break;
+			default:
+				$postData['driver1maritalstatus'] = 'S';
+				break;
+		}
+	
+		switch( $postData['driver1occupation'] )
+		{
+			case 1:
+			default:
+				$postData['driver1occupation'] = 'UNEM';
+				break;
+		}
+	
+		switch( $postData['desiredcoveragetype'] )
+		{
+			case '':
+				break;
+			default:
+				break;
+		}
+	
+		switch( $postData['driver1edulevel'] )
+		{
+			case 1;
+			default;
+			$postData['driver1edulevel'] = 'SomeCollegeNoDegree';
+			break;
+		}
+	
+		$postData['currentresidence'] = ($postData['currentresidence'] === 'Own') ? 'OWNED' : 'LEASED';
+	
+		$postData = '
+				      <?xml version="1.0" encoding="UTF-8"?>
+				      <ACORD xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="acord-pcs-v1_23_0-nodoc-nocodes.xsd">
+					<SignonRq>
+					    <ClientDt />
+					    <CustLangPref>en-US</CustLangPref>
+					    <ClientApp>
+					      <Org>'.$postData['CURRENTINSURANCECOMPANY'].'</Org>
+					      <Name>Auto Insurance Leads</Name>
+					      <Version>1.0</Version>
+					    </ClientApp>
+					</SignonRq>
+					<InsuranceSvcRq>
+					    <RqUID>'.$postData['universal_leadid'].'</RqUID>
+					    <PersAutoPolicyQuoteInqRq>
+					      <RqUID>'.$postData['universal_leadid'].'</RqUID>
+					      <TransactionRequestDt>2013-01-25T12:42:04-05:00</TransactionRequestDt>
+					      <CurCd>USD</CurCd>
+					      <InsuredOrPrincipal>
+						  <GeneralPartyInfo>
+						    <NameInfo>
+							<PersonName>
+							  <Surname>'.$postData['lastname'].'</Surname>
+							  <GivenName>'.$postData['name'].'</GivenName>
+							</PersonName>
+						    </NameInfo>
+						    <Addr>
+							<AddrTypeCd>MailingAddress</AddrTypeCd>
+							<Addr1>'.$postData['address'].'</Addr1>
+							<City>'.$postData['city'].'</City>
+							<StateProvCd>'.$postData['state'].'</StateProvCd>
+							<PostalCode>'.$postData['zip'].'</PostalCode>
+						    </Addr>
+						    <Communications>
+							<PhoneInfo>
+							  <PhoneTypeCd>Phone</PhoneTypeCd>
+							  <CommunicationUseCd>Home</CommunicationUseCd>
+							  <PhoneNumber>'.$postData['homephone'].'</PhoneNumber>
+							</PhoneInfo>
+							<EmailInfo>
+							  <EmailAddr>'.$postData['email'].'</EmailAddr>
+							</EmailInfo>
+						    </Communications>
+						  </GeneralPartyInfo>
+						  <InsuredOrPrincipalInfo>
+						    <InsuredOrPrincipalRoleCd>Insured</InsuredOrPrincipalRoleCd>
+						    <PersonInfo>
+							<GenderCd>'.$postData['driver1gender'].'</GenderCd>
+							<BirthDt>'.$postData['driver1dob_year'].'-'.$postData['driver1dob_day'].'-'.$postData['driver1dob_month'].'</BirthDt>
+							<MaritalStatusCd>'.$postData['driver1maritalstatus'].'</MaritalStatusCd>
+							<OccupationClassCd>'.$postData['driver1occupation'].'</OccupationClassCd>
+						    </PersonInfo>
+						  </InsuredOrPrincipalInfo>
+					      </InsuredOrPrincipal>
+					      <PersPolicy id="PersPolicy1">
+						  <BroadLOBCd>P</BroadLOBCd>
+						  <LOBCd>AUTOP</LOBCd>
+						  <OtherOrPriorPolicy id="OtherOrPriorPolicy1">
+						    <PolicyCd>Prior</PolicyCd>
+						    <LOBCd>AUTOP</LOBCd>
+						    <InsurerName>'.$postData['CURRENTINSURANCECOMPANY'].'</InsurerName>
+						    <ContractTerm>
+							<EffectiveDt>2012-08-28</EffectiveDt>
+							<ExpirationDt>2013-02-28</ExpirationDt>
+						    </ContractTerm>
+						    <OriginalInceptionDt>2008-01-25</OriginalInceptionDt>
+						    <Coverage>
+							<CoverageCd>BI</CoverageCd>
+							<Limit>
+							  <FormatCurrencyAmt>
+							      <Amt>100000</Amt>
+							  </FormatCurrencyAmt>
+							  <LimitBasisCd>TotalLim</LimitBasisCd>
+							  <LimitAppliesToCd>BIEachPers</LimitAppliesToCd>
+							</Limit>
+							<Limit>
+							  <FormatCurrencyAmt>
+							      <Amt>300000</Amt>
+							  </FormatCurrencyAmt>
+							  <LimitBasisCd>TotalLim</LimitBasisCd>
+							  <LimitAppliesToCd>BIEachOcc</LimitAppliesToCd>
+							</Limit>
+						    </Coverage>
+						  </OtherOrPriorPolicy>
+						  <PersApplicationInfo>
+						    <InsuredOrPrincipal>
+							<GeneralPartyInfo>
+							  <NameInfo>
+							      <PersonName>
+								<Surname>'.$postData['lastname'].'</Surname>
+								<GivenName>'.$postData['name'].'</GivenName>
+							      </PersonName>
+							  </NameInfo>
+							</GeneralPartyInfo>
+						    </InsuredOrPrincipal>
+						    <ResidenceOwnedRentedCd>'.$postData['currentresidence'].'</ResidenceOwnedRentedCd>
+						    <LengthTimeCurrentAddr>
+							<DurationPeriod>
+							  <NumUnits>'.$postData['driver1yearsatresidence'].'</NumUnits>
+							  <UnitMeasurementCd>ANN</UnitMeasurementCd>
+							</DurationPeriod>
+						    </LengthTimeCurrentAddr>
+						  </PersApplicationInfo>
+						  <DriverVeh DriverRef="PersDriver1" VehRef="PersVeh1">
+						    <UsePct>'.$postData['vehicle1commuteAvgMileage'].'</UsePct>
+						    <DriverUseCd>'.$postData['vehicle1primaryUse'].'</DriverUseCd>
+						  </DriverVeh>
+					      </PersPolicy>
+					      <PersAutoLineBusiness>
+						  <LOBCd>AUTOP</LOBCd>
+						  <PersDriver id="PersDriver1">
+						    <GeneralPartyInfo>
+							<NameInfo>
+							  <PersonName>
+							      <Surname>'.$postData['lastname'].'</Surname>
+							      <GivenName>'.$postData['name'].'</GivenName>
+							  </PersonName>
+							</NameInfo>
+						    </GeneralPartyInfo>
+						    <DriverInfo>
+							<PersonInfo>
+							  <GenderCd>'.$postData['driver1gender'].'</GenderCd>
+							  <BirthDt>'.$postData['driver1dob_year'].'-'.$postData['driver1dob_day'].'-'.$postData['driver1dob_month'].'</BirthDt>
+							  <MaritalStatusCd>'.$postData['driver1maritalstatus'].'</MaritalStatusCd>
+							  <OccupationClassCd>'.$postData['driver1occupation'].'</OccupationClassCd>
+							  <EducationLevelCd>'.$postData['driver1edulevel'].'</EducationLevelCd>
+							</PersonInfo>
+							<License>
+							  <LicenseTypeCd>Driver</LicenseTypeCd>
+							  <LicenseStatusCd>Active</LicenseStatusCd>
+							  <LicensedDt>1987-03-06</LicensedDt>
+							  <StateProvCd>OH</StateProvCd>
+							</License>
+						    </DriverInfo>
+						    <PersDriverInfo VehPrincipallyDrivenRef="PersVeh1">
+							<DriverRelationshipToApplicantCd>IN</DriverRelationshipToApplicantCd>
+						    </PersDriverInfo>
+						  </PersDriver>
+						  <PersVeh id="PersVeh1" LocationRef="Location2" RatedDriverRef="PersDriver1">
+						    <Manufacturer>'.$postData['vehicle1make'].'</Manufacturer>
+						    <Model>'.$postData['vehicle1model'].'</Model>
+						    <ModelYear>'.$postData['vehicle1year'].'</ModelYear>
+						    <VehBodyTypeCd>'.$postData['vehicle1trim'].'</VehBodyTypeCd>
+						    <VehTypeCd>PP</VehTypeCd>
+						    <NumDaysDrivenPerWeek>'.$postData['vehicle1commutedays'].'</NumDaysDrivenPerWeek>
+						    <EstimatedAnnualDistance>
+							<NumUnits>'.$postData['vehicle1annualMileage'].'</NumUnits>
+							<UnitMeasurementCd>SMI</UnitMeasurementCd>
+						    </EstimatedAnnualDistance>
+						    <LeasedVehInd>'.$postData['vehicle1leased'].'</LeasedVehInd>
+						    <VehIdentificationNumber>1G1JF52401</VehIdentificationNumber>
+						    <GaragingCd>D</GaragingCd>
+						    <VehUseCd>DW</VehUseCd>
+						    <Coverage>
+							<CoverageCd>BI</CoverageCd>
+							<CoverageDesc>Bodily Injury Liability</CoverageDesc>
+							<Limit>
+							  <FormatCurrencyAmt>
+							      <Amt>300000</Amt>
+							  </FormatCurrencyAmt>
+							  <LimitBasisCd>TotalLim</LimitBasisCd>
+							  <LimitAppliesToCd>BIEachOcc</LimitAppliesToCd>
+							</Limit>
+						    </Coverage>
+						    <Coverage>
+							<CoverageCd>PD</CoverageCd>
+							<CoverageDesc>Property Damage-Single Limit</CoverageDesc>
+							<Limit>
+							  <FormatCurrencyAmt>
+							      <Amt>50000</Amt>
+							  </FormatCurrencyAmt>
+							  <LimitBasisCd>TotalLim</LimitBasisCd>
+							  <LimitAppliesToCd>PDEachOcc</LimitAppliesToCd>
+							</Limit>
+						    </Coverage>
+						    <Coverage>
+							<CoverageCd>UM</CoverageCd>
+							<CoverageDesc>Uninsured Motorist Liability Coverage</CoverageDesc>
+							<Limit>
+							  <FormatCurrencyAmt>
+							      <Amt>100000</Amt>
+							  </FormatCurrencyAmt>
+							  <LimitBasisCd>TotalLim</LimitBasisCd>
+							  <LimitAppliesToCd>BIEachPers</LimitAppliesToCd>
+							</Limit>
+						    </Coverage>
+						    <Coverage>
+							<CoverageCd>COMP</CoverageCd>
+							<CoverageDesc>Comprehensive Coverage</CoverageDesc>
+							<Deductible>
+							  <FormatCurrencyAmt>
+							      <Amt>500</Amt>
+							  </FormatCurrencyAmt>
+							  <DeductibleBasisCd>P</DeductibleBasisCd>
+							  <DeductibleAppliesToCd>Coverage</DeductibleAppliesToCd>
+							</Deductible>
+						    </Coverage>
+						    <Coverage>
+							<CoverageCd>COLL</CoverageCd>
+							<CoverageDesc>Collision Coverage</CoverageDesc>
+							<Deductible>
+							  <FormatCurrencyAmt>
+							      <Amt>500</Amt>
+							  </FormatCurrencyAmt>
+							  <DeductibleBasisCd>P</DeductibleBasisCd>
+							  <DeductibleAppliesToCd>Coverage</DeductibleAppliesToCd>
+							</Deductible>
+							<Option>
+							  <OptionTypeCd>Opt1</OptionTypeCd>
+							  <OptionCd>B</OptionCd>
+							</Option>
+						    </Coverage>
+						  </PersVeh>
+					      </PersAutoLineBusiness>
+					      <Location id="Location1">
+						  <ItemIdInfo>
+						    <SystemId>09e1d7b6-afbf-4417-b255-baafc17c0c01</SystemId>
+						  </ItemIdInfo>
+						  <Addr>
+						    <AddrTypeCd>MailingAddress</AddrTypeCd>
+						    <Addr1>'.$postData['address'].'</Addr1>
+						    <City>'.$postData['city'].'</City>
+						    <StateProvCd>'.$postData['state'].'</StateProvCd>
+						    <PostalCode>'.$postData['zip'].'</PostalCode>
+						  </Addr>
+					      </Location>
+					      <Location id="Location2">
+						  <ItemIdInfo>
+						    <SystemId>f9d2dd7e-6cf3-4273-a995-d01dfe578003</SystemId>
+						  </ItemIdInfo>
+						  <Addr>
+						    <AddrTypeCd>GaragingAddress</AddrTypeCd>
+						    <Addr1>'.$postData['address'].'</Addr1>
+						    <City>'.$postData['city'].'</City>
+						    <StateProvCd>'.$postData['state'].'</StateProvCd>
+						    <PostalCode>'.$postData['zip'].'</PostalCode>
+						  </Addr>
+					      </Location>
+					    </PersAutoPolicyQuoteInqRq>
+					</InsuranceSvcRq>
+				      </ACORD>
+				    ';
+	
+		return $postData;
+	}
+	
+	function sendCurlRequest($url, $method = 'POST', $params = array())
+	{
+		$postVars = http_build_query($params);
+	
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $postVars);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/x-www-form-urlencoded"));
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false );
+	
+		$response = curl_exec($ch);
+		if(curl_errno($ch))
+		{
+			$curlError = 'Curl error: ' . curl_error($ch);
+			return $curlError;
+		}
+	
+		curl_close($ch);
+	
+		return $response;
+	}
+
+
+    $lmsData = '{"name":"Rebeca",
+				"driver1edulevel":"HighSchoolDiploma",
+				"email":"beckypasillas@yahoo.com",
+				"currentpolicyexpiration":"2013-08-01",
+				"CURRENTINSURANCECOMPANY":"Infinity Insurance",
+				"desiredcoveragetype":"State_Min",
+				"desiredcollisiondeductible":"500",
+				"desiredcomprehensivedeductible":"500",
+				"driver1firstname":"Rebeca",
+				"driver1lastname":"Pasillas",
+				"driver1dob_day":"07",
+				"driver1dob_month":"02",
+				"driver1dob_year":"1987",
+				"driver1gender":"Female",
+				"driver1maritalstatus":"Single",
+				"driver1occupation":"AdministrativeClerical",
+				"vehicle1year":"2010",
+				"vehicle1make":"Hyundai",
+				"vehicle1model":"ACCENT",
+				"vehicle1commuteAvgMileage":"8",
+				"vehicle1annualMileage":"25000",
+				"vehicle1primaryUse":"Commute_Work",
+				"vehicle1leased":"Owned",
+				"vertical":"ains",
+				"lastname":"Pasillas",
+				"emailaddress":"beckypasillas@yahoo.com",
+				"address":"16904 New Pine Drive",
+				"city":"Hacienda Heights",
+				"_City":"Hacienda Heights",
+				"state":"CA","st":"CA",
+				"_State":"CA",
+				"zip":"91745",
+				"_PostalCode":"91745",
+				"homephone":"626-201-2360",
+				"ueid":"fbso_0517af506af937_ad1_pp_6",
+				"country_code":"1",
+				"universal_leadid":"EADC3080-8D17-3FB9-885B-8042C030DD06",
+				"cam":"ad1_pp_6",
+				"useragent":"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.94 Safari/537.36",
+				"ipaddress":"207.168.5.122",
+				"sid":"autoinsquote.us",
+				"AFID":"43074",
+				"referer":"https://www.facebook.com/",
+				"leadtype":"ShortForm","keyword":"social",
+				"variant":"gadget_copy",
+				"currentlyinsured":"1",
+				"vehicle1trim":"Blue",
+				"vehicle1garageType":"Full Garage",
+				"vehicle1alarm":"Alarm",
+				"driver1licenseage":"18",
+				"currentresidence":"Own",
+				"driver1yearsatresidence":"10",
+				"driver2edulevel":"AA",
+				"homephone_area":"626",
+				"homephone_prefix":"201",
+				"homephone_suffix":"2360",
+				"firstname":"Rebeca",
+				"sourcedeliveryid":"3",
+				"cookie":"2f42075a6151eec7cb8424be36d5cf4a",
+				"keywords":"social|facebook|||social|gadget_copy",
+				"vendoremail":"facebook",
+				"vendorpassword":"ueint",
+				"vendorid":"underground",
+				"keyword_id":"2712",
+				"variant_id":"25214",
+				"site_id":"233",
+				"hid":"nvt-node12",
+				"dynotrax_id":"51ae795b91e1e77b45000005",
+				"contact":"Morning",
+				"propertydamage":"30000",
+				"yearsatresidence":"10",
+				"bodilyinjury":"50/100",
+				"policystart":"2012-08-06",
+				"insuredsince":"2011-02-12",
+				"driver1sr22":"No",
+				"driver1credit":"Good",
+				"driver1yearsemployed":"4",
+				"driver1age":"26",
+				"vehicle1ownership":"Leased",
+				"vehicle1distance":"9",
+				"vehicle1commutedays":"4"
+				}';
+
+    $vals = json_decode($lmsData, true);
+    //$postStringVals = json_decode($lmsData, true);
+    //$vals = array_merge($lmsData, $postStringVals, $_POST);
+
+    if( preg_match('/^(\d{3})(\d{3})(\d{4})$/', $vals['homephone'], $matches) )
+    {
+      $vals['homephone'] = '';
+      $vals['homephone'] = $matches[1] . '-' . $matches[2] . '-' . $matches[3];
+    }
+
+    $config = array('payload'       => '',
+				    'clientCode'    => 'AMFAM',
+				    'productCode'   => 'A',
+				    'sourceCode'    => 'UGRELNT',
+				    'affiliateCode' => 'underground',
+				    'campaignCode'  => 'AUTO',
+				    'postUrl'       => 'http://test.leadamplms.com/submitLead'
+				  );
+
+    $data = array('ClientCode'        => 'fdsafsa',//$config['clientCode'],
+				  'ProductCode'	      => $config['productCode'],
+				  'SourceCode'        => $config['sourceCode'],
+				  'AffiliateCode'     => $vals['vendorid'],
+				  'SourceLeadCode'    => $vals['universal_leadid'],
+				  'CampaignCode'      => $config['campaignCode'],
+				  'SourceLeadCode'    => '',
+				  'Email'	      	  => $vals['email'],
+				  'FirstName'	      => $vals['firstname'],
+				  'LastName'	      => $vals['lastname'],
+				  'HomePhone'	      => $vals['homephone'],
+				  'AltPhone'	      => '',
+				  'AltPhoneTxt'	      => 'N',
+				  'Address'	      	  => $vals['address'],
+				  'City'	      	  => $vals['city'],
+				  'State'	      	  => $vals['state'],
+				  'Country'	      	  => 'USA',
+				  'PostalCode'        => $vals['_PostalCode'],
+				  'Payload'	      	  => buildPostData($vals)
+				);
+
+
+    //$prepingResponse = PingPostCommon::sendCurlRequest($prepingUrl, 'POST', $data);
+    $postResponse = sendCurlRequest($config['postUrl'], 'POST', $data);
+    $responseObject = json_decode($postResponse);
+    var_dump( $postResponse );
+    //$response = $responseObject->response;

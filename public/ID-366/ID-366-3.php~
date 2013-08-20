@@ -1,0 +1,107 @@
+<?php
+    // AutoSample_Required.xml
+	$url = 'http://stage.quotewizard.com/LEADAPI/Services/InboundVendorServices.asmx';
+	$xmlPayload = '
+			<QuoteWizardData Version="1.0" xsi:noNamespaceSchemaLocation="QW.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			  <QuoteRequest DateTime="2001-12-17T09:30:47Z">
+			    <AutoInsurance>
+			      <Contact>
+				<FirstName>Bob</FirstName>
+				<LastName>Jones</LastName>
+				<Address1>111 Main Street</Address1>
+				<City>Tacoma</City>
+				<State>WA</State>
+				<ZIPCode>98401</ZIPCode>
+				<EmailAddress>email@email.com</EmailAddress>
+				<PhoneNumbers>
+				  <PrimaryPhone>
+				    <PhoneNumberValue>206-912-5555</PhoneNumberValue>
+				  </PrimaryPhone>
+				  <SecondaryPhone>
+				    <PhoneNumberValue>206-912-5555</PhoneNumberValue>
+				  </SecondaryPhone>
+				</PhoneNumbers>
+				<CurrentResidence ResidenceStatus="Own">
+				  <OccupancyDate>1997-08-13</OccupancyDate>
+				</CurrentResidence>
+			      </Contact>
+			      <Drivers>
+				<Driver MaritalStatus="Single" RelationshipToApplicant="Self" Gender="Male">
+				  <FirstName>Bob</FirstName>
+				  <LastName>Jones</LastName>
+				  <BirthDate>1967-08-13</BirthDate>
+				  <State>WA</State>
+				  <AgeLicensed>16</AgeLicensed>
+				  <LicenseStatus>Valid</LicenseStatus>
+				  <LicenseEverSuspendedRevoked>Yes</LicenseEverSuspendedRevoked>
+				  <Occupation Name="AdministrativeClerical">
+				    <YearsInField>1</YearsInField>
+				  </Occupation>
+				  <HighestLevelOfEducation>
+				    <Education AtHomeStudent="Yes" HighestDegree="SomeOrNoHighSchool"/>
+				  </HighestLevelOfEducation>
+				  <RequiresSR22Filing>Yes</RequiresSR22Filing>
+				  <CreditRating Bankruptcy="Yes" SelfRating="Excellent" Repossessions="Yes"/>
+				</Driver>
+			      </Drivers>
+			      <AutoInsuranceQuoteRequest>
+				<Vehicles>
+				  <Vehicle>
+				    <Year>2002</Year>
+				    <Make>Toyota</Make>
+				    <Model>Prius</Model>
+				    <Submodel>Prius-Sedan 4 Door</Submodel>
+				    <LocationParked>No Cover</LocationParked>
+				    <OwnedOrLeased>Owned</OwnedOrLeased>
+				    <VehicleUse VehicleUseDescription="Commute_Work">
+				      <AnnualMiles>5000</AnnualMiles>
+				      <WeeklyCommuteDays>1</WeeklyCommuteDays>
+				      <OneWayDistance>3</OneWayDistance>
+				    </VehicleUse>
+				  </Vehicle>
+				</Vehicles>
+				<InsuranceProfile>
+				  <RequestedPolicy>
+				    <CoverageType>Premium</CoverageType>
+				  </RequestedPolicy>
+				</InsuranceProfile>
+			      </AutoInsuranceQuoteRequest>
+			    </AutoInsurance>
+			  </QuoteRequest>
+			</QuoteWizardData>
+			';
+	
+	$xmlRequest = '<?xml version="1.0" encoding="utf-8"?>
+			<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+				       xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+			<soap:Body>
+			  <SubmitVendorLead xmlns="http://www.quotewizard.com/">
+			  <vendor>VendorName</vendor>
+			  <contractID>45b5dd90-2161-40f0-aed9-41f14fe6c9b9</contractID>
+			  <quoteData>'.$xmlPayload.'</quoteData>
+			  <initialID>
+			  </initialID>
+			  <format>XML</format>
+			  <pass>0</pass>
+			  </SubmitVendorLead>
+			</soap:Body>
+			</soap:Envelope>
+		      ';
+	$curlParams = array('url' => $url,
+			    'xml' => $xmlPayload
+			   );
+
+	$ch = curl_init($url);
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_POST, true);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlRequest);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: text/xml",
+						   "Content-length: " . strlen($xmlPayload),
+						   "Connection: close",
+						   "SOAPAction: http://www.quotewizard.com/SubmitVendorLead"));
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false );
+
+	$response = curl_exec($ch);
+	var_dump( htmlentities($response) );
+?>

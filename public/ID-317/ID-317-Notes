@@ -1,0 +1,9 @@
+problem as of July 12:
+  1. I cant get passed solving the responses:  string(102) "Array ( [success] => true [response] => [reason] => Default Scrubbing: Invalid Address ) ", and
+					       string(134) "Array ( [success] => true [response] => R [reason] => No order exists for the given campaign-geo combination (AUTO-641) ) "
+     I have changed the values for "Address" field to the following:
+     "2021 INDEPENDENCE AVE KANSAS CITY" results to "[response] => R [reason] => No order exists for the given campaign-geo combination (AUTO-641)"
+     "301"				 results to "[response] => [reason] => Default Scrubbing: Invalid Address"
+
+     It seems that the Address field takes in a certain set of digits rather than Varchar(255) as what the documentation has provided.  I have tried the following numerically based
+     addresses: 102, 3609, 4604, 301, 2021.

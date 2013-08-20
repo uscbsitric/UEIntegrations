@@ -1,0 +1,33 @@
+ID-618 notes:
+
+  tutorial URLs:
+    http://extranet.allwebleads.com/display/ENG/Data+Affiliates+V4.0+API+Partner+Specification#DataAffiliatesV4.0APIPartnerSpecification-Introduction
+    http://extranet.allwebleads.com/display/ENG/Data+Affiliates+V4.0+API+Partner+Specification#DataAffiliatesV4.0APIPartnerSpecification-DocumentInfo
+	Lead Format Schema <--- look for this string in the webpage of the given URL
+	  it will lead you to this: http://extranet.allwebleads.com/download/attachments/786568/LeadsXMLSchema.xsd
+
+    http://www.codeguru.com/java/article.php/c13529/XSD-Tutorial-XML-Schemas-For-Beginners.htm  <--- XSD tutorials
+
+
+    <?php
+    $endpoint = "https://<server-name>/leads/4.0/LeadServiceHttpPost.svc/SendLeadExclusive";
+    $content_type = "Content-Type: application/x-www-form-urlencoded";
+    $lead_xml = "<your-xml-string-here>";
+
+    $postValue = urlencode($lead_xml);
+    $ch = curl_init($endpoint);
+    curl_setopt($ch, CURLOPT_POST, "XmlString={$postValue}");
+    curl_setopt($ch, CURLOPT_POSTFIELDS, "XmlString={$postValue}");
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array($content_type));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+    try
+    {
+	$output = curl_exec($ch);
+	$success = curl_errno($ch) == 0;
+	curl_close($ch);
+    }
+    catch (Exception $e)
+    {
+    }
+    ?>

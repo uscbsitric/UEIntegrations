@@ -1,0 +1,84 @@
+ID-565 Notes:
+
+  1. We lack the following: 
+	complete url to test --->   The address of the EntityDataService.svc service
+	uri of the BPMOnline service e.g http://services.odata.org/Northwind/Northwind.svc, http://services.odata.org/OData/OData.svc/
+	username and password for credentials
+  2. I have a problem with "sudo yum install php-xml", I am confronted with a "No package php-xml available." in the terminal when I run it, and I cant find anything relevant
+     when I google things up.
+
+  3. ask the client if they need authentication even if in test environments
+
+
+
+important sites:
+http://www.bpmonline.com/bpmonlinesdken/WorkWithBpmByOdataHttp.html			--- Working with BPMonline Objects via the OData Protocol by Using Http Requests
+http://www.odata.org/documentation/uri-conventions#SelectSystemQueryOption		--- OData URI Conventions
+http://odataphp.codeplex.com/								--- OData SDK for PHP
+http://blogs.msdn.com/b/brian_swan/archive/2010/03/18/using-the-odata-sdk-for-php.aspx	--- Retrieving Data with the OData SDK for PHP
+http://www.bpmonline.com/bpmonlinesdken/						--- BPMonline SDK
+
+http://www.ibm.com/developerworks/library/x-phpatomfeed/				--- Creating an Atom feed in PHP
+http://stackoverflow.com/questions/250679/best-way-to-parse-rss-atom-feeds-with-php 	--- Parse RSS/Atom feeds with PHP
+
+
+
+
+
+################################
+##### BPMOnline Fieldlist  #####
+################################
+
+
+
+################################
+##### BPMOnline Fieldlist  #####
+################################
+
+
+
+################################
+#####    Document Lists    #####
+################################
+
+Connect Insurance Field Structure.xlsx
+Underground Elephant to BPMonline Instructions.docx
+
+################################
+#####    Document Lists    #####
+################################
+
+###########################################################
+##### working wit Objects and Collections of Objects: #####
+GetOdataCollectionByAuthByHttpExample(string userName, string userPassword)
+GetOdataObjectByIdExample()
+GetOdataObjectByFilterConditionExample()
+GetOdataObjectByFilterDiffConditionExample()
+CreateBpmEntityByOdataHttpExample()
+UpdateExistingBpmEnyityByOdataHttpExample()
+DeleteBpmEntityByOdataHttpExample()
+##### working wit Objects and Collections of Objects: #####
+###########################################################
+
+
+
+
+https://connect-myinsurance.bpmonline.com/0/ServiceModel/EntityDataService.svc/
+https://connect-myinsurance.bpmonline.com/0/ServiceModel/EntityDataService.svc/$metadata
+https://connect-myinsurance.bpmonline.com/0/ServiceModel/EntityDataService.svc/$metadata
+
+https://connect-myinsurance.bpmonline.com/2/ServiceModel/EntityDataService.svc/AccountCollection/
+https://connect-myinsurance.bpmonline.com/2/ServiceModel/EntityDataService.svc/ContactCollection/	
+Https://connect-myinsurance.bpmonline.com/2/ServiceModel/EntityDataService.svc/ItemsOfPropertyCollection/
+https://connect-myinsurance.bpmonline.com/2/ServiceModel/EntityDataService.svc/OpportunityCollection/
+https://connect-myinsurance.bpmonline.com/2/ServiceModel/EntityDataService.svc/ClaimsCollection		
+https://connect-myinsurance.bpmonline.com/0/ServiceModel/EntityDataService.svc/ClaimsCollection
+
+
+
+
+The credentials are as follows:
+Username: APItest
+Password: 123TEST
+
+

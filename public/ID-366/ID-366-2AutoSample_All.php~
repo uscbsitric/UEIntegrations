@@ -1,0 +1,485 @@
+<?php
+error_reporting(E_ALL);
+//require_once __DIR__.'/../postRequest.php';
+//require_once __DIR__.'/../pingpostCommon.php';
+
+/**
+ * A post request to AIS
+ *
+ * @package PingPost
+ * @copyright (c) 2013-2014 Underground Elephant
+ * 
+ */
+class PostRequest_AIS{ // extends PostRequest {
+    private static $url = 'http://stage.quotewizard.com/LEADAPI/Services/InboundVendorServices.asmx';
+
+    private static $maritalStatusMap = array(
+        'single' => 'S',
+        'married' => 'M',
+        'divorced' => 'D',
+        'separated' => 'P',
+        'widowed' => 'W',
+    );
+
+    private static $ticketTypeMap = array(
+        'speeding' => 'SPEED',
+        'alcohol' => 'DUI',
+        'other' => 'ADMOV',
+    );
+
+    private static $incidentDescriptionIndexMap = array(
+        'speeding' => 'ticketSpeeding',
+        'alcohol' => 'ticketAlcohol',
+        'other' => 'ticketOther',
+    );
+
+    private static $incidentAccidentFaultMap = array(
+        'yes' => 'ACCAF',
+        'no' => 'ACCFN',
+    );
+
+    private static $relationshipTypeMap = array(
+        'self' => 'SP',
+        'spouse' => 'SP',
+        'child' => 'CH',
+        'sibling' => 'RE',
+        'parent' => 'PA',
+        'grandparent' => 'RE',
+        'grandchild' => 'RE',
+        'other' => 'RE',
+    );
+
+    public function _getRequest() {
+       // $id = $this->postObject->getLeadId();
+        //$leadData = $this->postObject->getLeadPostData();
+	
+		$jsonStrng = '{"name":"Rebeca",
+				      "driver1edulevel":"HighSchoolDiploma",
+				      "email":"beckypasillas@yahoo.com",
+				      "currentpolicyexpiration":"2013-08-01",
+				      "CURRENTINSURANCECOMPANY":"Infinity Insurance",
+				      "desiredcoveragetype":"State_Min",
+				      "desiredcollisiondeductible":"500",
+				      "desiredcomprehensivedeductible":"500",
+				      "driver1firstname":"Rebeca",
+				      "driver1lastname":"Pasillas",
+				      "driver1dob_day":"07",
+				      "driver1dob_month":"02",
+				      "driver1dob_year":"1987",
+				      "driver1gender":"Female",
+				      "driver1maritalstatus":"Single",
+				      "driver1occupation":"AdministrativeClerical",
+				      "vehicle1year":"2010",
+				      "vehicle1make":"Hyundai",
+				      "vehicle1model":"ACCENT",
+				      "vehicle1commuteAvgMileage":"8",
+				      "vehicle1annualMileage":"25000",
+				      "vehicle1primaryUse":"Commute_Work",
+				      "vehicle1leased":"Owned",
+				      "vertical":"ains",
+				      "lastname":"Pasillas",
+				      "emailaddress":"beckypasillas@yahoo.com",
+				      "address":"16904 New Pine Drive",
+				      "city":"Hacienda Heights",
+				      "_City":"Hacienda Heights",
+				      "state":"CA","st":"CA",
+				      "_State":"CA",
+				      "zip":"91745",
+				      "_PostalCode":"91745",
+				      "homephone":"626-201-2360",
+				      "ueid":"fbso_0517af506af937_ad1_pp_6",
+				      "country_code":"1",
+				      "universal_leadid":"4D0BD454-6B89-E940-EE4C-573CABF0D046",
+				      "cam":"ad1_pp_6",
+				      "useragent":"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.94 Safari/537.36",
+				      "ipaddress":"207.168.5.122",
+				      "sid":"autoinsquote.us",
+				      "AFID":"43074",
+				      "referer":"https://www.facebook.com/",
+				      "leadtype":"ShortForm","keyword":"social",
+				      "variant":"gadget_copy",
+				      "currentlyinsured":"1",
+				      "vehicle1trim":"Blue",
+				      "vehicle1garageType":"Full Garage",
+				      "vehicle1alarm":"Alarm",
+				      "driver1licenseage":"18",
+				      "currentresidence":"Own",
+				      "driver1yearsatresidence":"10",
+				      "driver2edulevel":"AA",
+				      "homephone_area":"626",
+				      "homephone_prefix":"201",
+				      "homephone_suffix":"2360",
+				      "firstname":"Rebeca",
+				      "sourcedeliveryid":"3",
+				      "cookie":"2f42075a6151eec7cb8424be36d5cf4a",
+				      "keywords":"social|facebook|||social|gadget_copy",
+				      "vendoremail":"facebook",
+				      "vendorpassword":"ueint",
+				      "keyword_id":"2712",
+				      "variant_id":"25214",
+				      "site_id":"233",
+				      "hid":"nvt-node12",
+				      "dynotrax_id":"51ae795b91e1e77b45000005",
+				      "contact":"Morning",
+				      "propertydamage":"30000",
+				      "yearsatresidence":"10",
+				      "bodilyinjury":"50/100",
+				      "policystart":"2012-08-06",
+				      "insuredsince":"2011-02-12",
+				      "driver1sr22":"No",
+				      "driver1credit":"Good",
+				      "driver1yearsemployed":"4",
+				      "driver1age":"26",
+				      "vehicle1ownership":"Leased",
+				      "vehicle1distance":"9",
+				      "vehicle1commutedays":"4"}';
+		$leadData = json_decode($jsonStrng, true);
+
+        if(!isset($leadData['state']))
+        {
+            $leadData['state'] = (isset($leadData['st']) ? $leadData['st'] : '' );
+        }
+
+        if ($leadData['currentresidence'] == 'Own'){
+            $currentresidence = 'OWNED';
+        } else {
+            $currentresidence = 'RENTD';
+        }
+
+        if($leadData['vehicle1leased'] == 'yes'){
+            $vehicle1Ownership = 'LEASED';
+        } else {
+            $vehicle1Ownership = 'OWNED';
+        }
+
+        if(isset($leadData['vehicle2leased']))
+            {
+            if($leadData['vehicle2leased'] == 'yes'){
+                $vehicle2Ownership = 'LEASED';
+            } else {
+                $vehicle2Ownership = 'OWNED';
+            }
+        }
+        switch ($leadData['desiredcoveragetype']) {
+            case 'SUPERIOR':
+                $coverage = array(
+                    array(
+                        'CoverageCd' => 'BI',
+                        'limits' => array(
+                            array(
+                                'FormatCurrencyAmt' => '250000',
+                                'LimitAppliesToCd' => 'PerPerson'
+                            ),
+                            array(
+                                'FormatCurrencyAmt' => '500000',
+                                'LimitAppliesToCd' => 'PerAcc'
+                            )
+                        )
+                    ),
+                    array(
+                        'CoverageCd' => 'PD',
+                        'limits' => array(
+                            array(
+                                'FormatCurrencyAmt' => '50000',
+                                'LimitAppliesToCd' => 'PropDam'
+                            )
+                        )
+                    )
+                );
+                break;
+            case 'STANDARD':
+                $coverage = array(
+                    array(
+                        'CoverageCd' => 'BI',
+                        'limits' => array(
+                            array(
+                                'FormatCurrencyAmt' => '100000',
+                                'LimitAppliesToCd' => 'PerPerson'
+                            ),
+                            array(
+                                'FormatCurrencyAmt' => '300000',
+                                'LimitAppliesToCd' => 'PerAcc'
+                            )
+                        )
+                    ),
+                    array(
+                        'CoverageCd' => 'PD',
+                        'limits' => array(
+                            array(
+                                'FormatCurrencyAmt' => '50000',
+                                'LimitAppliesToCd' => 'PropDam'
+                            )
+                        )
+                    )
+                );
+                break;
+            case 'BASIC':
+                $coverage = array(
+                    array(
+                        'CoverageCd' => 'BI',
+                        'limits' => array(
+                            array(
+                                'FormatCurrencyAmt' => '50000',
+                                'LimitAppliesToCd' => 'PerPerson'
+                            ),
+                            array(
+                                'FormatCurrencyAmt' => '100000',
+                                'LimitAppliesToCd' => 'PerAcc'
+                            )
+                        )
+                    ),
+                    array(
+                        'CoverageCd' => 'PD',
+                        'limits' => array(
+                            array(
+                                'FormatCurrencyAmt' => '25000',
+                                'LimitAppliesToCd' => 'PropDam'
+                            )
+                        )
+                    )
+                );
+                break;
+            case 'STATEMINIMUM':
+                $coverage = array(
+                    array(
+                        'CoverageCd' => 'BI',
+                        'limits' => array(
+                            array(
+                                'FormatCurrencyAmt' => '15000',
+                                'LimitAppliesToCd' => 'PerPerson'
+                            ),
+                            array(
+                                'FormatCurrencyAmt' => '30000',
+                                'LimitAppliesToCd' => 'PerAcc'
+                            )
+                        )
+                    ),
+                    array(
+                        'CoverageCd' => 'PD',
+                        'limits' => array(
+                            array(
+                                'FormatCurrencyAmt' => '5000',
+                                'LimitAppliesToCd' => 'PropDam'
+                            )
+                        )
+                    )
+                );
+                break;
+        }
+
+        if(isset($leadData['driver1incident']) && $leadData['driver1incident'] == 'yes'){
+            $driver1incident = array(
+                'AccidentViolationCd' => '',
+                'AccidentViolationDesc' => '',
+                'AccidentViolationDt' => $leadData['driver1incident1incidentDateYear'].'-'.$leadData['driver1incident1incidentDateMonth'].'-'.'01',
+            );
+
+            switch($leadData['driver1incident1incidentType'])
+            {
+                case 'ticket':
+                        $driver1incident['AccidentViolationCd'] = PostRequest_AIS::$ticketTypeMap['driver1incident1'.$leadData['driver1incident1ticketType']];
+                        $driver1incident['AccidentViolationDesc'] = $leadData[PostRequest_AIS::$incidentDescriptionIndexMap[$leadData['driver1incident1ticketType']]];
+                    break;
+
+                case 'accident':
+                    $driver1incident['AccidentViolationCd'] = PostRequest_AIS::$incidentAccidentFaultMap[$leadData['driver1incident1driverAtFault']];
+                    $driver1incident['AccidentViolationDesc'] = $leadData['driver1incident1accident'];
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        if(isset($leadData['driver2incident']) && $leadData['driver2incident'] == 'yes'){
+            $driver2incident = array(
+                'AccidentViolationCd' => '',
+                'AccidentViolationDesc' => '',
+                'AccidentViolationDt' => $leadData['driver2incident1incidentDateYear'].'-'.$leadData['driver2incident1incidentDateMonth'].'-'.'01',
+            );
+
+            switch($leadData['driver2incident1incidentType'])
+            {
+                case 'ticket':
+                        $driver2incident['AccidentViolationCd'] = PostRequest_AIS::$ticketTypeMap[$leadData['driver2incident1ticketType']];
+                        $driver2incident['AccidentViolationDesc'] = $leadData['driver2incident1'.PostRequest_AIS::$incidentDescriptionIndexMap[$leadData['driver2incident1ticketType']]];
+                    break;
+
+                case 'accident':
+                    $driver2incident['AccidentViolationCd'] = PostRequest_AIS::$incidentAccidentFaultMap[$leadData['driver2incident1driverAtFault']];
+                    $driver2incident['AccidentViolationDesc'] = $leadData['driver2incident1accident'];
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+       $homephone = $leadData['homephone_area'].$leadData['homephone_prefix'].$leadData['homephone_suffix'];
+
+	$xml	 = '<?xml version="1.0" encoding="UTF-8"?>
+			<QuoteWizardData Version="1.0" xsi:noNamespaceSchemaLocation="QW.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			  <QuoteRequest DateTime="2001-12-17T09:30:47Z">
+			    <VendorData>
+			      <LeadID>'.$leadData['universal_leadid'].'</LeadID>
+			      <PubID>12345</PubID>
+			      <SourceID>'.$leadData['sourcedeliveryid'].'</SourceID>
+			      <SubID>12345</SubID>
+			      <GroupID>12345</GroupID>
+			      <LeadType>'.$leadData['leadtype'].'</LeadType>
+			      <SourceIPAddress>'.$leadData['ipaddress'].'</SourceIPAddress>
+			      <DateLeadReceived>1967-08-13</DateLeadReceived>
+			    </VendorData>
+			    <DistributionDirectives>
+			      <DistributionDirective LeadDistributionCap="5">
+				<Entity Type="Company" Action="Exclude">AllState</Entity>
+				<Entity Type="Company" Action="Exclude">StateFarm</Entity>
+				<Entity Type="Company" Action="Exclude">Prudent</Entity>
+			      </DistributionDirective>
+			    </DistributionDirectives>
+			    <AutoInsurance>
+			      <Contact>
+				<FirstName>'.$leadData['firstname'].'</FirstName>
+				<LastName>'.$leadData['lastname'].'</LastName>
+				<Address1>'.$leadData['address'].'</Address1>
+				<Address2>Apt. 2</Address2>
+				<City>'.$leadData['city'].'</City>
+				<County>Pierce</County>
+				<State>'.$leadData['state'].'</State>
+				<ZIPCode>'.$leadData['zip'].'</ZIPCode>
+				<EmailAddress>'.$leadData['emailaddress'].'</EmailAddress>
+				<PhoneNumbers>
+				  <PrimaryPhone>
+				    <PhoneNumberValue>'.$leadData['homephone'].'</PhoneNumberValue>
+				  </PrimaryPhone>
+				  <SecondaryPhone>
+				    <PhoneNumberValue>206-912-5555</PhoneNumberValue>
+				  </SecondaryPhone>
+				</PhoneNumbers>
+				<CurrentResidence ResidenceStatus="Own">
+				  <OccupancyDate>1997-08-13</OccupancyDate>
+				</CurrentResidence>
+			      </Contact>
+			      <Drivers>
+				<Driver MaritalStatus="'.$leadData['driver1maritalstatus'].'" RelationshipToApplicant="Self" Gender="'.$leadData['driver1gender'].'">
+				  <FirstName>'.$leadData['firstname'].'</FirstName>
+				  <LastName>'.$leadData['lastname'].'</LastName>
+				  <BirthDate>'.$leadData['driver1dob_year'] . '-' . $leadData['driver1dob_month'] . '-' . $leadData['driver1dob_day'].'</BirthDate>
+				  <State>'.$leadData['state'].'</State>
+				  <LicenseNumber>123456789</LicenseNumber>
+				  <AgeLicensed>'.$leadData['driver1licenseage'].'</AgeLicensed>
+				  <LicenseStatus>Valid</LicenseStatus>
+				  <LicenseEverSuspendedRevoked>Yes</LicenseEverSuspendedRevoked>
+				  <Occupation Name="'.$leadData['driver1occupation'].'">
+				    <YearsInField>'.$leadData['driver1yearsemployed'].'</YearsInField>
+				  </Occupation>
+				  <HighestLevelOfEducation>
+				    <Education AtHomeStudent="Yes" HighestDegree="'.$leadData['driver1edulevel'].'">
+				      <GPA>4.0</GPA>
+				    </Education>
+				  </HighestLevelOfEducation>
+				  <Incidents>
+				    <Incident AtFault="Yes" Type="Intoxic">
+				      <DUIState>AK</DUIState>
+				      <IncidentDate>1987-08-13</IncidentDate>
+				      <InsurancePaid>986.65</InsurancePaid>
+				      <WhatDamaged>People</WhatDamaged>
+				    </Incident>
+				  </Incidents>
+				  <RequiresSR22Filing>'.$leadData['driver1sr22'].'</RequiresSR22Filing>
+				  <CreditRating Bankruptcy="Yes" SelfRating="'.$leadData['driver1credit'].'" Repossessions="Yes"/>
+				</Driver>
+			      </Drivers>
+			      <AutoInsuranceQuoteRequest>
+				<Vehicles>
+				  <Vehicle>
+				    <Year>'.$leadData['vehicle1year'].'</Year>
+				    <Make>'.$leadData['vehicle1make'].'</Make>
+				    <Model>'.$leadData['vehicle1model'].'</Model>
+				    <Submodel>'.$leadData['vehicle1trim'].'</Submodel>
+				    <LocationParked>'.$leadData['vehicle1garageType'].'</LocationParked>
+				    <OwnedOrLeased>'.$leadData['vehicle1leased'].'</OwnedOrLeased>
+				    <AntitheftFeatures>'.$leadData['vehicle1alarm'].'</AntitheftFeatures>
+				    <VINPrefix>JACDH58V0N</VINPrefix>
+				    <VehicleUse VehicleUseDescription="'.$leadData['vehicle1primaryUse'].'">
+				      <AnnualMiles>'.$leadData['vehicle1annualMileage'].'</AnnualMiles>
+				      <WeeklyCommuteDays>'.$leadData['vehicle1commutedays'].'</WeeklyCommuteDays>
+				      <OneWayDistance>'.$leadData['vehicle1distance'].'</OneWayDistance>
+				    </VehicleUse>
+				  </Vehicle>
+				</Vehicles>
+				<InsuranceProfile>
+				  <RequestedPolicy>
+				    <CoverageType>'.$leadData['desiredcoveragetype'].'</CoverageType>
+				  </RequestedPolicy>
+				  <CurrentPolicy>
+				    <InsuranceCompany>
+				      <CompanyName>'.$leadData['CURRENTINSURANCECOMPANY'].'</CompanyName>
+				    </InsuranceCompany>
+				    <StartDate>2008-08-13</StartDate>
+				    <ExpirationDate>2009-08-13</ExpirationDate>
+				  </CurrentPolicy>
+				  <ContinuouslyInsuredSinceDate>1987-08-13</ContinuouslyInsuredSinceDate>
+				</InsuranceProfile>
+				<Comment>Comments</Comment>
+			      </AutoInsuranceQuoteRequest>
+			    </AutoInsurance>
+			  </QuoteRequest>
+			</QuoteWizardData>
+			';
+
+        return $xml;
+    }
+
+    protected function _getTestRequest() {
+        // for now our test uses same request
+        return $this->getRequest();
+    }
+
+    protected function _executeRequest() {
+        try
+        {
+	    $xmlParams = array('vendor'     => 'UndergroundElephant',
+			       'contractID' => '9690133E-2BA5-434B-A50F-A907DADE3CC5',
+			       'quoteData'  => $this->_getRequest(),
+			       'initialID'  => '',
+			       'format'	    => 'xml',
+			       'pass'	    => 0
+			      );
+            $client = new SoapClient(PostRequest_AIS::$url.'?wsdl');
+            ////$header = new SoapHeader("http://www.aispskleads.com", 'AuthHeader', array('Username' => $this->config['username'], 'Password' => $this->config['password']));
+            //$client->__setSoapHeaders($header);
+
+            $response = $client->SubmitVendorLead($xmlParams);
+        }
+        catch (Exception $e)
+        {
+            $response = new stdClass();
+        }
+
+        return $response->UploadWebLeadResult;
+    }
+
+    protected function _executeTestRequest() {
+        // TODO - no tests at the moment
+        return '';
+    }
+
+    protected function _wasRequestSuccessful() {
+        if (!$this->request) {
+            throw new Exception('No request sent yet.');
+        }
+
+        if(strpos($this->response, '<Name>UploadWebLead</Name><StatusEnum>Succeeded</StatusEnum><StatusText>') !== false)
+        {
+            return true;
+        }
+
+        return false;
+    }
+}
+
+
+  $PostRequest_AIS = new PostRequest_AIS();
+  echo htmlentities( $PostRequest_AIS->_getRequest() );
+?>

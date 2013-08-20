@@ -1,0 +1,17 @@
+
+ID-366 Notes
+
+Results for the day for the codes in ID-366-C, note that values in LeadID and GroupID needs to be changed periodically or else we will get a "invalid LeadID or duplicate GroupID".
+Also note that we needed to change the LeadDistributionCap="8" from 5 to 8, going beyond the value 8 gives out the error "The lead is not valid: The 'LeadDistributionCap' attribute is invalid - 
+																																								  The value '9' is invalid according to its datatype 'Integer' - 
+																																								  The MaxInclusive constraint failed.":
+
+string(425) "<?xml version="1.0" encoding="utf-16"?>
+<QWXMLResponse Version="1.0">
+    <DateTime>6/6/2013 8:51:48 PM</DateTime>
+    <Contract_ID>9690133E-2BA5-434B-A50F-A907DADE3CC5</Contract_ID>
+    <Quote_ID>6881f67c-569e-476e-be78-134b488b1b7a</Quote_ID>
+    <Status>Success</Status>
+    <Payout>20.82</Payout>
+</QWXMLResponse>"
+
