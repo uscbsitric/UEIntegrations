@@ -1,0 +1,67 @@
+@CHARSET "UTF-8";
+
+h3 { color: #265974; }
+
+#congrats-banner { 
+	background: url(http://static.zend.com/devcloud/images/congratulations-box-bkg.png) top left no-repeat; 
+	width: 560px;
+	height: 440px;	
+	position: relative;
+	left: 150px;
+	padding: 44px 60px 15px 53px;
+	line-height: normal; 
+}
+
+#congrats-banner h2 {
+	color: #265974;
+    line-height: 1em;
+	font-size: 28pt;
+	font-weight: normal;
+	font-variant: small-caps;
+	margin: 0;
+	padding: 0;
+	float: left;
+	width: 230px;
+}
+
+#upload-code { 
+	position: relative;
+	top: 49px;
+	left: 20px;
+	line-height: 22px;
+}
+
+#upload-code h3 {
+	font-size: 18px;
+}
+
+#whats-this {
+	font-size: 11px;
+	clear: both;
+	position: relative;
+	top: 105px;	
+}
+
+#whats-this h3 { 
+	font-weight: normal;
+}
+
+.header{
+	
+}
+
+.footer{
+	
+}
+
+.navigationSection{
+	display: block;
+	background-color: #f8f8f8;
+	border-color: #e7e7e7;
+}
+
+.mainStageSection{
+	display: block;
+	background-color: #f8f8f8;
+	border-color: #e7e7e7;
+}
