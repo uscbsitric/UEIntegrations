@@ -26,6 +26,7 @@ $config = array('accountUrl'  	 => 'https://connect-myinsurance.bpmonline.com/0/
 		'opportunityUrl' => 'https://connect-myinsurance.bpmonline.com/0/ServiceModel/EntityDataService.svc/OpportunityCollection/'
 	       );
 
+	// Auto Insurance Post script
     $lmsData =  '{"universal_leadid":"GHCF0E79-RT2E-F3HJ-C760-C5A77AC7DEDF",
 		  "sourcedeliveryid":"3",
 		  "sid":"autoinsquote.us",
