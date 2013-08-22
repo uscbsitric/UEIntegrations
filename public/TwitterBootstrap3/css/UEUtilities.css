@@ -46,6 +46,12 @@ h3 { color: #265974; }
 	font-weight: normal;
 }
 
+.ueIcon{
+	background-image: url('../../pics/UndergroundElephant.jpg');
+	padding: 25px 25px;
+	background-size: 100%;
+}
+
 .header{
 	
 }

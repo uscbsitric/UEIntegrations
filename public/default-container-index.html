@@ -3,17 +3,22 @@
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 	<title>Application Container Created | Zend Developer Cloud Platform</title>
 	<link rel="stylesheet" type="text/css" href="http://static.zend.com/devcloud/style/nimbus.css" />
 	<link rel="stylesheet" type="text/css" href="TwitterBootstrap3/css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" href="TwitterBootstrap3/css/UEUtilities.css" />
+	<link rel="stylesheet" type="text/css" href="JQuery-ui-1.10.3.custom/css/start/jquery-ui-1.10.3.custom.min.css">
 
 	<script type="text/javascript" src="JQuery2.0.3/jquery2.0.3.js"></script>	
 	<script type="text/javascript" src="TwitterBootstrap3/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="JQuery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript">
 		$(document).ready( function()
 						   {
 						   		//$("#autoInsurance").click( function(){ alert('you clicked me') } );
+						   		$("#accordion").accordion();
 						   }
 						 );
 	</script>
@@ -31,6 +36,17 @@
     	</div>
     	
     	<nav class="navbar navbar-default" role="navigation">
+    	  <!-- Brand and toggle get grouped for better mobile display -->
+		  <div class="navbar-header">
+		    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+		      <span class="sr-only">Toggle navigation</span>
+		      <span class="icon-bar"></span>
+		      <span class="icon-bar"></span>
+		      <span class="icon-bar"></span>
+		    </button>
+			<img class="navbar-brand img-rounded img-responsive ueIcon">
+		    <!-- <a class="navbar-brand" href="#">UE Integrations</a>  -->
+		  </div>
     		<div class="collapse navbar-collapse navbar-ex1-collapse">
     			<ul class="nav navbar-nav">
     				<div class="btn-group">
@@ -40,23 +56,34 @@
     			</ul>
     		</div>
     	</nav>
+   	
 	</header>
 
 
 	<div class="row">
-		<div class="col-md-4">
+		<div class="col-sm-4">
 			<section class="navigationSection">
-					navi section
+					<div id="accordion">
+						<h3>ID-317</h3>
+						<div>
+							<p>This is ID-317 speaking</p>
+						</div>
+						
+						<h3>ID-565</h3>
+						<div>
+							<p>This is ID-565 speaking</p>
+						</div>
+					</div>
 			</section>
 		</div>
-		<div class="col-md-8">
+		<div class="col-sm-8">
 			<section class="mainStageSection">
 					main stage section
 			</section>
 		</div>
 	</div>
 	
-	<footer class="text-center">SANDALO, Frederick ELP Web Developer @ RipeConcept</footer>
+	<footer class="text-center">SANDALO, Frederick ELP Web Developer @ RipeConcepts</footer>
 
 </body>
 
