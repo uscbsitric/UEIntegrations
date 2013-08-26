@@ -20,9 +20,28 @@
 						   {
 						   		//$("#autoInsurance").click( function(){ alert('you clicked me') } );
 						   		$("#accordion").accordion();
+						   		
+								$('#accordion h3').each(function()
+														{
+														    $(this).click(function()
+														    			  {
+														        			 $('#autoInsuranceForm').attr('action',$(this).attr('text')+'.php');
+																		  }
+																		 );
+													  	}
+													   );
+
 						   }
 						 );
 	</script>
+	<script type="text/javascript">
+		function submitForm(form)
+		{
+			//form.submit();
+			alert('attempting to submit');
+		}
+	</script>
+	
 </head>
 
 <body>
@@ -95,67 +114,168 @@
 				<div class="container-fluid">
 					<div class="row-fluid">
 					<section class="mainStageSection col-sm-12">
-					<form class="form-horizontal" role="form">
+					<form class="form-horizontal" role="form" id="autoInsuranceForm" method="post">
 					  <div class="form-group">
+					  	<label for="url" class="col-lg-2 control-label">url</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="url" placeholder="url" name="url">
+					    </div>
+					  	<label for="username" class="col-lg-2 control-label">username</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="username" placeholder="username" name="username">
+					    </div>
+					  	<label for="password" class="col-lg-2 control-label">password</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="password" placeholder="password" name="password">
+					    </div>
+					    
+					    
+					  	<label for="vertical" class="col-lg-2 control-label">vertical</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="vertical" placeholder="vertical" name="vertical">
 					    </div>
+					  	<label for="name" class="col-lg-2 control-label">name</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="name" placeholder="name" name="name">
 					    </div>
+					  	<label for="lastname" class="col-lg-2 control-label">lastname</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="lastname" placeholder="lastname" name="lastname">
 					    </div>
+					  	<label for="email" class="col-lg-2 control-label">email</label>
 					    <div class="col-lg-8">
 					      <input type="email" class="form-control" id="emailaddress" placeholder="email" name="emailaddress">
 					    </div>
+					  	<label for="address" class="col-lg-2 control-label">address</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="address" placeholder="address" name="address">
 					    </div>
+					  	<label for="city" class="col-lg-2 control-label">city</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="city" placeholder="city" name="city">
 					    </div>
+					  	<label for="state" class="col-lg-2 control-label">state</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="state" placeholder="state" name="state">
 					    </div>
+					  	<label for="zip" class="col-lg-2 control-label">zip</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="zip" placeholder="zip" name="zip">
 					    </div>
+					  	<label for="_PostalCode" class="col-lg-2 control-label">_PostalCode</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="_PostalCode" placeholder="_PostalCode" name="_PostalCode">
 					    </div>
+					  	<label for="homephone" class="col-lg-2 control-label">homephone</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="homephone" placeholder="homephone" name="homephone">
 					    </div>
+					  	<label for="ueid" class="col-lg-2 control-label">ueid</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="ueid" placeholder="ueid" name="ueid">
 					    </div>
+					  	<label for="country_code" class="col-lg-2 control-label">country_code</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="country_code" placeholder="country_code" name="country_code">
 					    </div>
+					  	<label for="cam" class="col-lg-2 control-label">cam</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="cam" placeholder="cam" name="cam">
 					    </div>
+					  	<label for="querystring" class="col-lg-2 control-label">querystring</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="querystring" placeholder="querystring" name="querystring">
 					    </div>
+					  	<label for="useragent" class="col-lg-2 control-label">useragent</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="useragent" placeholder="useragent" name="useragent">
 					    </div>
+					  	<label for="ipaddress" class="col-lg-2 control-label">ipaddress</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="ipaddress" placeholder="ipaddress" name="ipaddress">
 					    </div>
+					  	<label for="sid" class="col-lg-2 control-label">sid</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="sid" placeholder="sid" name="sid">
 					    </div>
+					  	<label for="AFID" class="col-lg-2 control-label">AFID</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="AFID" placeholder="AFID" name="AFID">
 					    </div>
+					  	<label for="referer" class="col-lg-2 control-label">referer</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="referer" placeholder="referer" name="referer">
 					    </div>
+					  	<label for="leadtype" class="col-lg-2 control-label">leadtype</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="leadtype" placeholder="leadtype" name="leadtype">
+					    </div>
+					    <label for="keyword" class="col-lg-2 control-label">keyword</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="keyword" placeholder="keyword" name="keyword">
+					    </div>
+					  	<label for="variant" class="col-lg-2 control-label">variant</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="variant" placeholder="variant" name="variant">
+					    </div>
+					  	<label for="currentlyinsured" class="col-lg-2 control-label">currentlyinsured</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="currentlyinsured" placeholder="currentlyinsured" name="currentlyinsured">
+					    </div>
+					  	<label for="currentresidence" class="col-lg-2 control-label">currentresidence</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="currentresidence" placeholder="currentresidence" name="currentresidence">
+					    </div>
+					  	<label for="driver2edulevel" class="col-lg-2 control-label">driver2edulevel</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="driver2edulevel" placeholder="driver2edulevel" name="driver2edulevel">
+					    </div>
+					  	<label for="cookie" class="col-lg-2 control-label">cookie</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="cookie" placeholder="cookie" name="cookie">
+					    </div>
+					  	<label for="keywords" class="col-lg-2 control-label">keywords</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="keywords" placeholder="keywords" name="keywords">
+					    </div>
+					  	<label for="vendoremail" class="col-lg-2 control-label">vendoremail</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="vendoremail" placeholder="vendoremail" name="vendoremail">
+					    </div>
+					  	<label for="vendorpassword" class="col-lg-2 control-label">vendorpassword</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="vendorpassword" placeholder="vendorpassword" name="vendorpassword">
+					    </div>
+					  	<label for="vendorid" class="col-lg-2 control-label">vendorid</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="vendorid" placeholder="vendorid" name="vendorid">
+					    </div>
+					  	<label for="keyword_id" class="col-lg-2 control-label">keyword_id</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="keyword_id" placeholder="keyword_id" name="keyword_id">
+					    </div>
+					  	<label for="variant_id" class="col-lg-2 control-label">variant_id</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="variant_id" placeholder="variant_id" name="variant_id">
+					    </div>
+					  	<label for="site_id" class="col-lg-2 control-label">site_id</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="site_id" placeholder="site_id" name="site_id">
+					    </div>
+					  	<label for="hid" class="col-lg-2 control-label">hid</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="hid" placeholder="hid" name="hid">
+					    </div>
+					  	<label for="dynotrax_id" class="col-lg-2 control-label">dynotrax_id</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="dynotrax_id" placeholder="dynotrax_id" name="dynotrax_id">
+					    </div>
+
+						<label class="col-lg-2 control-label"></label>
+					    <div class="col-lg-8">
+					      <button type="submit" class="btn btn-default btn-lg" id="submit" name="submit">
+					      	Submit
+					      </button>
 					    </div>
 					  </div>
 	 				</form>
@@ -169,5 +289,26 @@
 	<footer class="text-center">SANDALO, Frederick ELP Web Developer @ RipeConcepts</footer>
 
 </body>
+
+
+
+
+
+
+
+
+<!-- 
+		$('#accordion h3').each(function()
+								{
+								    $(this).click(function()
+								    			  {
+								        			 $('#autoInsuranceForm').attr('action',$(this).attr('text')+'.php');
+												  }
+												 );
+							  	}
+							   );
+ -->
+
+
 
 </html>
