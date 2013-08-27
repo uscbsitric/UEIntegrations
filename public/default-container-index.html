@@ -20,16 +20,18 @@
 						   {
 						   		//$("#autoInsurance").click( function(){ alert('you clicked me') } );
 						   		$("#accordion").accordion();
-						   		
 								$('#accordion h3').each(function()
 														{
+															$('#autoInsuranceForm').hide();
 														    $(this).click(function()
 														    			  {
-														        			 $('#autoInsuranceForm').attr('action',$(this).attr('text')+'.php');
+														    				 $('#autoInsuranceForm').fadeIn();
+														        			 $('#autoInsuranceForm').attr('action',$(this).attr('text'));
 																		  }
 																		 );
 													  	}
 													   );
+								
 
 						   }
 						 );
@@ -70,10 +72,10 @@
     		<div class="collapse navbar-collapse navbar-ex1-collapse">
     			<ul class="nav navbar-nav">
     				<div class="btn-group">
-    					<button id="autoInsurance" type="button" class="btn btn-primary navbar-btn">
+    					<button id="autoInsurance" type="button" class="btn btn-primary navbar-btn disabled">
     						Auto Insurance
     					</button>
-				     	<button id="lifeInsurance" type="button" class="btn btn-success navbar-btn">
+				     	<button id="lifeInsurance" type="button" class="btn btn-primary navbar-btn disabled">
 				     		Life Insurance
 				     	</button>
     				</div>
@@ -88,7 +90,7 @@
 			<div class="col-sm-4">
 				<section class="navigationSection">
 						<div id="accordion">
-							<h3>ID-317</h3>
+							<h3 text="ID-317/deleteMe.php">ID-317</h3>
 							<div>
 								<p>This is ID-317... I'll be back</p>
 							</div>
