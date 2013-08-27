@@ -2,7 +2,7 @@
 	function getCurlRequest($url, $params)
 	{
 		$postVars = http_build_query($params);
-	
+
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_POST, true);
@@ -10,7 +10,7 @@
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $postVars);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/x-www-form-urlencoded"));
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false );
-		curl_setopt($ch, CURLOPT_USERPWD, "UndergroundElephantHostPost:Tj57QnWr");
+		//curl_setopt($ch, CURLOPT_USERPWD, "UndergroundElephantHostPost:Tj57QnWr");
 	
 		$response = curl_exec($ch);
 		if(curl_errno($ch))
@@ -28,9 +28,9 @@
 	$lmsData = '{"vertical":"hins",
 				 "city":"San Francisco",
 				 "_City":"San Francisco",
-				 "state":"CA",
-				 "st":"CA",
-				 "_State":"CA",
+				 "state":"AR",
+				 "st":"AR",
+				 "_State":"AR",
 				 "zip":"94133",
 				 "_PostalCode":"94133",
 				 "ueid":"glsr_051ec73374d383_G_EXed=anthanthem com register&t=anthem com register",

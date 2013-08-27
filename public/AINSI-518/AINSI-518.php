@@ -87,4 +87,4 @@
   											 'StatusId'	  => '1' 	// hardcoded for now, I cant find a suitable key and value pair in the supplied Life Insurance post string
   											)
   							);
-  var_dump( htmlentities($response) );
+  var_dump( htmlentities( htmlspecialchars_decode($response) ) );
