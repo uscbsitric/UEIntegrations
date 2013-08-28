@@ -20,19 +20,41 @@
 						   {
 						   		//$("#autoInsurance").click( function(){ alert('you clicked me') } );
 						   		$("#accordion").accordion();
+								$('#autoInsuranceForm').hide();
+								$('#healthInsuranceForm').hide();
+								/*
 								$('#accordion h3').each(function()
 														{
-															$('#autoInsuranceForm').hide();
 														    $(this).click(function()
 														    			  {
-														    				 $('#autoInsuranceForm').fadeIn();
 														        			 $('#autoInsuranceForm').attr('action',$(this).attr('text'));
 																		  }
 																		 );
 													  	}
 													   );
-								
-
+								*/
+								$('#ID-317').click(function()
+												   {
+														$('form').each(function()
+																	   {
+																		  $(this).hide();
+																	   }
+																	  );
+														$('#autoInsuranceForm').fadeIn();
+														$('#autoInsuranceForm').attr('action', $(this).attr('text'));
+												   }
+												  );
+								$('#ID-745').click(function()
+												   {
+														$('form').each(function()
+																	   {
+																		  $(this).hide();
+																	   }
+																	  );
+														$('#healthInsuranceForm').fadeIn();
+														$('#healthInsuranceForm').attr('action', $(this).attr('text'));
+												   }
+												  );
 						   }
 						 );
 	</script>
@@ -90,14 +112,14 @@
 			<div class="col-sm-4">
 				<section class="navigationSection">
 						<div id="accordion">
-							<h3 text="ID-317/deleteMe.php">ID-317</h3>
+							<h3 text="ID-317/ID-317.php" id="ID-317" formType="autoIns">ID-317</h3>
 							<div>
 								<p>This is ID-317... I'll be back</p>
 							</div>
 							
-							<h3>ID-565</h3>
+							<h3 text="ID-745/ID-745.php" id="ID-745" formType="healthIns">ID-745</h3>
 							<div>
-								<p>This is ID-565... I am done</p>
+								<p>This is done, codes sent to Jovel</p>
 							</div>
 							
 							<h3>ID-732</h3>
@@ -117,6 +139,7 @@
 					<div class="row-fluid">
 					<section class="mainStageSection col-sm-12">
 					<form class="form-horizontal" role="form" id="autoInsuranceForm" method="post">
+					  <strong font-color="red">Auto Insurance Form</strong>
 					  <div class="form-group">
 					  	<label for="url" class="col-lg-2 control-label">url</label>
 					    <div class="col-lg-8">
@@ -130,8 +153,6 @@
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="password" placeholder="password" name="password">
 					    </div>
-					    
-					    
 					  	<label for="vertical" class="col-lg-2 control-label">vertical</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="vertical" placeholder="vertical" name="vertical">
@@ -281,7 +302,128 @@
 					    </div>
 					  </div>
 	 				</form>
-				</section>
+					
+					<form class="form-horizontal" role="form" id="healthInsuranceForm" method="post">
+						<strong>Health Insurance Form</strong>
+						<div class="form-group">
+							<label for="url" class="col-lg-2 control-label">url</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="url" placeholder="url" name="url">
+						    </div>
+							<label for="vertical" class="col-lg-2 control-label">vertical</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="vertical" placeholder="vertical" name="vertical">
+						    </div>
+							<label for="city" class="col-lg-2 control-label">city</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="city" placeholder="city" name="city">
+						    </div>
+							<label for="state" class="col-lg-2 control-label">state</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="state" placeholder="state" name="state">
+						    </div>
+							<label for="zip" class="col-lg-2 control-label">zip</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="zip" placeholder="zip" name="zip">
+						    </div>
+							<label for="_PostalCode" class="col-lg-2 control-label">_PostalCode</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="_PostalCode" placeholder="_PostalCode" name="_PostalCode">
+						    </div>
+							<label for="country_code" class="col-lg-2 control-label">country_code</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="country_code" placeholder="country_code" name="country_code">
+						    </div>
+							<label for="cam" class="col-lg-2 control-label">cam</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="cam" placeholder="cam" name="cam">
+						    </div>
+							<label for="useragent" class="col-lg-2 control-label">useragent</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="useragent" placeholder="useragent" name="useragent">
+						    </div>
+							<label for="ipaddress" class="col-lg-2 control-label">ipaddress</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="ipaddress" placeholder="ipaddress" name="ipaddress">
+						    </div>
+							<label for="sid" class="col-lg-2 control-label">sid</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="sid" placeholder="sid" name="sid">
+						    </div>
+							<label for="AFID" class="col-lg-2 control-label">AFID</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="AFID" placeholder="AFID" name="AFID">
+						    </div>
+							<label for="referer" class="col-lg-2 control-label">referer</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="referer" placeholder="referer" name="referer">
+						    </div>
+							<label for="leadtype" class="col-lg-2 control-label">leadtype</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="leadtype" placeholder="leadtype" name="leadtype">
+						    </div>
+							<label for="keyword" class="col-lg-2 control-label">keyword</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="keyword" placeholder="keyword" name="keyword">
+						    </div>
+							<label for="variant" class="col-lg-2 control-label">variant</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="variant" placeholder="variant" name="variant">
+						    </div>
+							<label for="sureHitsFeedId" class="col-lg-2 control-label">sureHitsFeedId</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="sureHitsFeedId" placeholder="sureHitsFeedId" name="sureHitsFeedId">
+						    </div>
+							<label for="cookie" class="col-lg-2 control-label">cookie</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="cookie" placeholder="cookie" name="cookie">
+						    </div>
+							<label for="keywords" class="col-lg-2 control-label">keywords</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="keywords" placeholder="keywords" name="keywords">
+						    </div>
+							<label for="vendoremail" class="col-lg-2 control-label">vendoremail</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="vendoremail" placeholder="vendoremail" name="vendoremail">
+						    </div>
+							<label for="vendorpassword" class="col-lg-2 control-label">vendorpassword</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="vendorpassword" placeholder="vendorpassword" name="vendorpassword">
+						    </div>
+							<label for="keyword_id" class="col-lg-2 control-label">keyword_id</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="keyword_id" placeholder="keyword_id" name="keyword_id">
+						    </div>
+							<label for="variant_id" class="col-lg-2 control-label">variant_id</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="variant_id" placeholder="variant_id" name="variant_id">
+						    </div>
+							<label for="site_id" class="col-lg-2 control-label">site_id</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="site_id" placeholder="site_id" name="site_id">
+						    </div>
+							<label for="hid" class="col-lg-2 control-label">hid</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="hid" placeholder="hid" name="hid">
+						    </div>
+							<label for="dynotrax_id" class="col-lg-2 control-label">dynotrax_id</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="dynotrax_id" placeholder="dynotrax_id" name="dynotrax_id">
+						    </div>
+							<label for="existingconditionstoggle" class="col-lg-2 control-label">existingconditionstoggle</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="existingconditionstoggle" placeholder="existingconditionstoggle" name="existingconditionstoggle">
+						    </div>
+							<label class="col-lg-2 control-label"></label>
+						    <div class="col-lg-8">
+						      <button type="submit" class="btn btn-default btn-lg" id="submit" name="submit">
+						      	Submit
+						      </button>
+						    </div>
+						</div>
+					</form>
+					
+					</section>
 					</div>
 				</div>
 			</div>

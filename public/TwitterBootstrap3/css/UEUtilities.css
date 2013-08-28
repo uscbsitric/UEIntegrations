@@ -2,6 +2,8 @@
 
 h3 { color: #265974; }
 
+strong { color: red; }
+
 #congrats-banner { 
 	background: url(http://static.zend.com/devcloud/images/congratulations-box-bkg.png) top left no-repeat; 
 	width: 560px;

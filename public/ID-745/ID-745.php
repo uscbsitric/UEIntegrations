@@ -61,12 +61,13 @@
 	$lmsDataJsonDecoded = json_decode($lmsData, true);
 	
 	$testUrl = 'http://edgeleads.icanbenefit.com/iCanEnterprise.Leads/Remote.aspx';
-	$response = getCurlRequest($testUrl, array('LeadType' 	  => 2, // documentation says to pass 2 always
+
+	$response = getCurlRequest($_POST['url'], array('LeadType' 	  => 2, // documentation says to pass 2 always
 											   'LeadProvider' => 'UndergroundElephant', // we dont have a mapping for this
 											   'FirstName'	  => 'Underground', // we dont have a mapping for this
 											   'LastName'	  => 'Elephant', // we dont have a mapping for this
-											   'State' 		  => $lmsDataJsonDecoded['state'],
-											   'Zipcode' 	  => $lmsDataJsonDecoded['zip'],
+											   'State' 		  => $_POST['state'],
+											   'Zipcode' 	  => $_POST['zip'],
 											   'DayPhone' 	  => 9999999999, // we dont have a mapping for this
 											   'BestDay' 	  => 'NON', // we dont have a mapping for this
 											   'BestTime' 	  => 'NON', // we dont have a mapping for this
