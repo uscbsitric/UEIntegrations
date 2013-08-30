@@ -2,7 +2,8 @@
 	function getCurlRequest($url, $params)
 	{
 		$postVars = http_build_query($params);
-
+var_dump($postVars);
+exit();
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_URL, $url . '?' . $postVars);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
@@ -75,7 +76,7 @@
   
   $testUrl = 'http://sqs-scqa.condadogroup.com/postredirect.aspx';
   $productionUrl = 'https://crm.selectquotesenior.com/postredirect.aspx';
-  $response = getCurlRequest($testUrl, array('id' => 4,  // notice that there is no 'atomic' field name for the field 'id', it always comes as a suffix to, example: Campaign_Id, Status_Id etc.
+  $response = getCurlRequest($productionUrl, array('id' => 4,  // notice that there is no 'atomic' field name for the field 'id', it always comes as a suffix to, example: Campaign_Id, Status_Id etc.
   											 'Primary_FirstName' => $lmsDataJsonDecoded['name'],
   											 'Primary_LastName'  => $lmsDataJsonDecoded['lastname'],
   											 'State'	  => $lmsDataJsonDecoded['state'],
