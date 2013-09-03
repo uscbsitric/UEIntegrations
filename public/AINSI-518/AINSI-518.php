@@ -79,11 +79,12 @@ exit();
   $response = getCurlRequest($productionUrl, array('id' => 4,  // notice that there is no 'atomic' field name for the field 'id', it always comes as a suffix to, example: Campaign_Id, Status_Id etc.
   											 'Primary_FirstName' => $lmsDataJsonDecoded['name'],
   											 'Primary_LastName'  => $lmsDataJsonDecoded['lastname'],
-  											 'State'	  => $lmsDataJsonDecoded['state'],
-  											 'Zip'		  => $lmsDataJsonDecoded['zip'],
+  											 'PrimaryState'	  => $lmsDataJsonDecoded['state'],
+  											 'Primary_Zip'		  => $lmsDataJsonDecoded['zip'],
   											 'DOB'		  => $lmsDataJsonDecoded['dob_year'] . '-' . $lmsDataJsonDecoded['dob_day'] . '-' . $lmsDataJsonDecoded['dob_month'],
   											 'Primary_Email' => $lmsDataJsonDecoded['emailaddress'],
-  											 'Phone_Number'  => $lmsDataJsonDecoded['homephone'],
+  											 'Primary_DayPhone'  => $lmsDataJsonDecoded['homephone'],
+											 'Primary_EveningPhone' => $lmsDataJsonDecoded['homephone'],
   											 'CampaignId' => '455', // hardcoded for now, I cant find a suitable key and value pair in the supplied Life Insurance post string
   											 'StatusId'	  => '1' 	// hardcoded for now, I cant find a suitable key and value pair in the supplied Life Insurance post string
   											)
