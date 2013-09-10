@@ -10,8 +10,30 @@
 	<link rel="stylesheet" type="text/css" href="TwitterBootstrap3/css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" href="TwitterBootstrap3/css/UEUtilities.css" />
 	<link rel="stylesheet" type="text/css" href="JQuery-ui-1.10.3.custom/css/start/jquery-ui-1.10.3.custom.min.css">
-					<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-					<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+	<!-- style for combobox -->
+	<style>
+	  .custom-combobox {
+	    position: relative;
+	    display: inline-block;
+	  }
+	  .custom-combobox-toggle {
+	    position: absolute;
+	    top: 0;
+	    bottom: 0;
+	    margin-left: -1px;
+	    padding: 0;
+	    /* support: IE7 */
+	    *height: 1.7em;
+	    *top: 0.1em;
+	  }
+	  .custom-combobox-input {
+	    margin: 0;
+	    padding: 0.3em;
+	  }
+  	</style>
+  	<!-- style for combobox -->
+					
 	<script type="text/javascript" src="JQuery2.0.3/jquery2.0.3.js"></script>	
 	<script type="text/javascript" src="TwitterBootstrap3/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="JQuery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
@@ -42,6 +64,7 @@
 																	  );
 														$('#autoInsuranceForm').fadeIn();
 														$('#autoInsuranceForm').attr('action', $(this).attr('text'));
+														//$('#autoInsurance').removeClass('btn-primary').addClass('btn-success');  <-- not a perfect approach
 												   }
 												  );
 								$('#ID-745').click(function()
@@ -53,8 +76,149 @@
 																	  );
 														$('#healthInsuranceForm').fadeIn();
 														$('#healthInsuranceForm').attr('action', $(this).attr('text'));
+														//$('#lifeInsurance').removeClass('btn-primary').addClass('btn-success');  <-- not a perfect approach
 												   }
 												  );
+								
+								// Start of the Combo Box
+								  (function( $ ) {
+									    $.widget( "custom.combobox", {
+									      _create: function() {
+									        this.wrapper = $( "<span>" )
+									          .addClass( "custom-combobox" )
+									          .insertAfter( this.element );
+									 
+									        this.element.hide();
+									        this._createAutocomplete();
+									        this._createShowAllButton();
+									      },
+									 
+									      _createAutocomplete: function() {
+									        var selected = this.element.children( ":selected" ),
+									          value = selected.val() ? selected.text() : "";
+									 
+									        this.input = $( "<input>" )
+									          .appendTo( this.wrapper )
+									          .val( value )
+									          .attr( "title", "" )
+									          .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
+									          .autocomplete({
+									            delay: 0,
+									            minLength: 0,
+									            source: $.proxy( this, "_source" )
+									          })
+									          .tooltip({
+									            tooltipClass: "ui-state-highlight"
+									          });
+									 
+									        this._on( this.input, {
+									          autocompleteselect: function( event, ui ) {
+									            ui.item.option.selected = true;
+									            this._trigger( "select", event, {
+									              item: ui.item.option
+									            });
+									          },
+									 
+									          autocompletechange: "_removeIfInvalid"
+									        });
+									      },
+									 
+									      _createShowAllButton: function() {
+									        var input = this.input,
+									          wasOpen = false;
+									 
+									        $( "<a>" )
+									          .attr( "tabIndex", -1 )
+									          .attr( "title", "Show All Items" )
+									          .tooltip()
+									          .appendTo( this.wrapper )
+									          .button({
+									            icons: {
+									              primary: "ui-icon-triangle-1-s"
+									            },
+									            text: false
+									          })
+									          .removeClass( "ui-corner-all" )
+									          .addClass( "custom-combobox-toggle ui-corner-right" )
+									          .mousedown(function() {
+									            wasOpen = input.autocomplete( "widget" ).is( ":visible" );
+									          })
+									          .click(function() {
+									            input.focus();
+									 
+									            // Close if already visible
+									            if ( wasOpen ) {
+									              return;
+									            }
+									 
+									            // Pass empty string as value to search for, displaying all results
+									            input.autocomplete( "search", "" );
+									          });
+									      },
+									 
+									      _source: function( request, response ) {
+									        var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
+									        response( this.element.children( "option" ).map(function() {
+									          var text = $( this ).text();
+									          if ( this.value && ( !request.term || matcher.test(text) ) )
+									            return {
+									              label: text,
+									              value: text,
+									              option: this
+									            };
+									        }) );
+									      },
+									 
+									      _removeIfInvalid: function( event, ui ) {
+									 
+									        // Selected an item, nothing to do
+									        if ( ui.item ) {
+									          return;
+									        }
+									 
+									        // Search for a match (case-insensitive)
+									        var value = this.input.val(),
+									          valueLowerCase = value.toLowerCase(),
+									          valid = false;
+									        this.element.children( "option" ).each(function() {
+									          if ( $( this ).text().toLowerCase() === valueLowerCase ) {
+									            this.selected = valid = true;
+									            return false;
+									          }
+									        });
+									 
+									        // Found a match, nothing to do
+									        if ( valid ) {
+									          return;
+									        }
+									 
+									        // Remove invalid value
+									        this.input
+									          .val( "" )
+									          .attr( "title", value + " didn't match any item" )
+									          .tooltip( "open" );
+									        this.element.val( "" );
+									        this._delay(function() {
+									          this.input.tooltip( "close" ).attr( "title", "" );
+									        }, 2500 );
+									        this.input.data( "ui-autocomplete" ).term = "";
+									      },
+									 
+									      _destroy: function() {
+									        this.wrapper.remove();
+									        this.element.show();
+									      }
+									    });
+									  })( jQuery );
+									 
+									  $(function() {
+									    $( "#driver1edulevel, #driver1dob_day, #driver1dob_month, #driver1dob_year, #driver1gender, #driver1maritalstatus, #driver1occupation, #driver1sr22, \
+									    	#driver1credit, #CURRENTINSURANCECOMPANY, #desiredcoveragetype, #desiredcollisiondeductible, #desiredcomprehensivedeductible, #propertydamage, \
+									    	#contact, #vehicle1annualMileage, #vehicle1primaryUse, #vehicle1leased" ).combobox();
+
+									  });
+								// End of the Combo Box
+
 						   }
 						 );
 	</script>
@@ -94,12 +258,12 @@
     		<div class="collapse navbar-collapse navbar-ex1-collapse">
     			<ul class="nav navbar-nav">
     				<div class="btn-group">
-    					<button id="autoInsurance" type="button" class="btn btn-primary navbar-btn disabled">
+    					<div id="autoInsurance" class="btn btn-primary navbar-btn">
     						Auto Insurance
-    					</button>
-				     	<button id="lifeInsurance" type="button" class="btn btn-primary navbar-btn disabled">
+    					</div>
+				     	<div id="lifeInsurance" class="btn btn-primary navbar-btn">
 				     		Life Insurance
-				     	</button>
+				     	</div>
     				</div>
     			</ul>
     		</div>
@@ -134,165 +298,493 @@
 						</div>
 				</section>
 			</div>
-			<div class="col-sm-8">
+			<div class="col-sm-8">	<!-- ANG ID-317-PING-NEW ang sundi kono be -->
 				<div class="container-fluid">
 					<div class="row-fluid">
 					<section class="mainStageSection col-sm-12">
+					
+					
+					
+								<!-- Experiment on Modals -->
+									<a data-toggle="modal" href="#myModal" class="btn btn-primary btn-lg">Launch demo modal</a>
+									
+									  <!-- Modal -->
+									  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+									    <div class="modal-dialog">
+									      <div class="modal-content">
+									        <div class="modal-header">
+									          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									          <h4 class="modal-title">Modal title</h4>
+									        </div>
+									        <div class="modal-body">
+									          ... this is the modal body content ...
+									        </div>
+									        <div class="modal-footer">
+									          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									          <button type="button" class="btn btn-primary">Save changes</button>
+									        </div>
+									      </div><!-- /.modal-content -->
+									    </div><!-- /.modal-dialog -->
+									  </div><!-- /.modal -->
+								<!-- Experiment on Modals -->
+					
+					
+					
+					
+					
+					
+					
 					<form class="form-horizontal" role="form" id="autoInsuranceForm" method="post">
 					  <strong font-color="red">Auto Insurance Form</strong>
 					  <div class="form-group">
 					  	<label for="url" class="col-lg-2 control-label">url</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="url" placeholder="url" name="url">
-					    </div>
+					    </div><div class="clearfix"></div>
 					  	<label for="username" class="col-lg-2 control-label">username</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="username" placeholder="username" name="username">
-					    </div>
+					    </div><div class="clearfix"></div>
 					  	<label for="password" class="col-lg-2 control-label">password</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="password" placeholder="password" name="password">
-					    </div>
-					  	<label for="vertical" class="col-lg-2 control-label">vertical</label>
+					    </div><div class="clearfix"></div>
+					    <label for="sourcedeliveryid" class="col-lg-2 control-label">sourcedeliveryid</label>
 					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="vertical" placeholder="vertical" name="vertical">
-					    </div>
-					  	<label for="name" class="col-lg-2 control-label">name</label>
-					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="name" placeholder="name" name="name">
-					    </div>
-					  	<label for="lastname" class="col-lg-2 control-label">lastname</label>
-					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="lastname" placeholder="lastname" name="lastname">
-					    </div>
-					  	<label for="email" class="col-lg-2 control-label">email</label>
-					    <div class="col-lg-8">
-					      <input type="email" class="form-control" id="emailaddress" placeholder="email" name="emailaddress">
-					    </div>
-					  	<label for="address" class="col-lg-2 control-label">address</label>
-					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="address" placeholder="address" name="address">
-					    </div>
-					  	<label for="city" class="col-lg-2 control-label">city</label>
-					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="city" placeholder="city" name="city">
-					    </div>
-					  	<label for="state" class="col-lg-2 control-label">state</label>
-					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="state" placeholder="state" name="state">
-					    </div>
-					  	<label for="zip" class="col-lg-2 control-label">zip</label>
-					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="zip" placeholder="zip" name="zip">
-					    </div>
-					  	<label for="_PostalCode" class="col-lg-2 control-label">_PostalCode</label>
-					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="_PostalCode" placeholder="_PostalCode" name="_PostalCode">
-					    </div>
-					  	<label for="homephone" class="col-lg-2 control-label">homephone</label>
-					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="homephone" placeholder="homephone" name="homephone">
-					    </div>
-					  	<label for="ueid" class="col-lg-2 control-label">ueid</label>
-					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="ueid" placeholder="ueid" name="ueid">
-					    </div>
-					  	<label for="country_code" class="col-lg-2 control-label">country_code</label>
-					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="country_code" placeholder="country_code" name="country_code">
-					    </div>
-					  	<label for="cam" class="col-lg-2 control-label">cam</label>
-					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="cam" placeholder="cam" name="cam">
-					    </div>
-					  	<label for="querystring" class="col-lg-2 control-label">querystring</label>
-					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="querystring" placeholder="querystring" name="querystring">
-					    </div>
-					  	<label for="useragent" class="col-lg-2 control-label">useragent</label>
-					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="useragent" placeholder="useragent" name="useragent">
-					    </div>
-					  	<label for="ipaddress" class="col-lg-2 control-label">ipaddress</label>
-					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="ipaddress" placeholder="ipaddress" name="ipaddress">
-					    </div>
+					      <input type="text" class="form-control" id="sourcedeliveryid" placeholder="sourcedeliveryid" name="sourcedeliveryid" value="3">
+					    </div><div class="clearfix"></div>
 					  	<label for="sid" class="col-lg-2 control-label">sid</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="sid" placeholder="sid" name="sid">
-					    </div>
+					    </div><div class="clearfix"></div>
 					  	<label for="AFID" class="col-lg-2 control-label">AFID</label>
 					    <div class="col-lg-8">
 					      <input type="text" class="form-control" id="AFID" placeholder="AFID" name="AFID">
-					    </div>
+					    </div><div class="clearfix"></div>
+					  	<label for="homephone_area" class="col-lg-2 control-label">homephone_area</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="homephone_area" placeholder="homephone_area" name="homephone_area" value="626">
+					    </div><div class="clearfix"></div>
+					  	<label for="homephone_prefix" class="col-lg-2 control-label">homephone_prefix</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="homephone_prefix" placeholder="homephone_prefix" name="homephone_prefix" value="201">
+					    </div><div class="clearfix"></div>
+					  	<label for="homephone_suffix" class="col-lg-2 control-label">homephone_suffix</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="homephone_suffix" placeholder="homephone_suffix" name="homephone_suffix" value="2360">
+					    </div><div class="clearfix"></div>
+					  	<label for="name" class="col-lg-2 control-label">name</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="name" placeholder="name" name="name" value="Frederick">
+					    </div><div class="clearfix"></div>
+					  	<label for="lastname" class="col-lg-2 control-label">lastname</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="lastname" placeholder="lastname" name="lastname" value="Sandalo">
+					    </div><div class="clearfix"></div>
+					  	<label for="emailaddress" class="col-lg-2 control-label">emailaddress</label>
+					    <div class="col-lg-8">
+					      <input type="email" class="form-control" id="emailaddress" placeholder="email" name="emailaddress" value="ue.frederick.sandalo@gmail.com">
+					    </div><div class="clearfix"></div>
+					  	<label for="email" class="col-lg-2 control-label">email</label>
+					    <div class="col-lg-8">
+					      <input type="email" class="form-control" id="email" placeholder="email" name="email" value="ue.frederick.sandalo@gmail.com">
+					    </div><div class="clearfix"></div>
+					  	<label for="address" class="col-lg-2 control-label">address</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="address" placeholder="address" name="address" value="16904 New Pine Drive">
+					    </div><div class="clearfix"></div>
+					  	<label for="city" class="col-lg-2 control-label">city</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="city" placeholder="city" name="city" value="Hacienda Heights">
+					    </div><div class="clearfix"></div>
+					  	<label for="_City" class="col-lg-2 control-label">_City</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="_City" placeholder="_City" name="_City" value="Hacienda Heights">
+					    </div><div class="clearfix"></div>
+					  	<label for="state" class="col-lg-2 control-label">state</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="state" placeholder="state" name="state" value="CA">
+					    </div><div class="clearfix"></div>
+					  	<label for="zip" class="col-lg-2 control-label">zip</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="zip" placeholder="zip" name="zip" value="91745">
+					    </div><div class="clearfix"></div>
+					  	<label for="_PostalCode" class="col-lg-2 control-label">_PostalCode</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="_PostalCode" placeholder="_PostalCode" name="_PostalCode" value="91745">
+					    </div><div class="clearfix"></div>
+					  	<label for="homephone" class="col-lg-2 control-label">homephone</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="homephone" placeholder="homephone" name="homephone" value="626-201-2360">
+					    </div><div class="clearfix"></div>
+					  	<label for="ueid" class="col-lg-2 control-label">ueid</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="ueid" placeholder="ueid" name="ueid" value="fbso_0517af506af937_ad1_pp_6">
+					    </div><div class="clearfix"></div>
+					  	<label for="country_code" class="col-lg-2 control-label">country_code</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="country_code" placeholder="country_code" name="country_code" value="1">
+					    </div><div class="clearfix"></div>
+					  	<label for="driver1edulevel" class="col-lg-2 control-label">driver1edulevel</label>
+					    <div class="col-lg-8 ui-widget">
+					      <select class="form-control" id="driver1edulevel" placeholder="driver1edulevel" name="driver1edulevel">
+					      	<option value="HIGHSCHOOL">High School</option>
+					      	<option value="AA">Associate</option>
+					      	<option value="BA">Bachelors</option>
+					      	<option value="POST">Post Graduate</option>
+					      </select>
+					    </div><div class="clearfix"></div>
+					  	<label for="driver1dob_day" class="col-lg-2 control-label">driver1dob_day</label>
+					    <div class="col-lg-8 ui-widget">
+					      <select class="form-control" id="driver1dob_day" placeholder="driver1dob_day" name="driver1dob_day">
+					      	<option value="1">01</option>
+					      	<option value="2">02</option>
+					      	<option value="3">03</option>
+					      	<option value="4">04</option>
+					      	<option value="5">05</option>
+					      	<option value="6">06</option>
+					      	<option value="7">07</option>
+					      	<option value="8">08</option>
+					      	<option value="9">09</option>
+					      	<option value="10">10</option>
+					      	<option value="11">11</option>
+					      	<option value="12">12</option>
+					      	<option value="13">13</option>
+					      	<option value="14">14</option>
+					      	<option value="15">15</option>
+					      	<option value="16">16</option>
+					      	<option value="17">17</option>
+					      	<option value="18">18</option>
+					      	<option value="19">19</option>
+					      	<option value="20">20</option>
+					      	<option value="21">21</option>
+					      	<option value="22">22</option>
+					      	<option value="23">23</option>
+					      	<option value="24">24</option>
+					      	<option value="25">25</option>
+					      	<option value="26">26</option>
+					      	<option value="27">27</option>
+					      	<option value="28">28</option>
+					      	<option value="29">29</option>
+					      	<option value="30">30</option>
+					      	<option value="31">31</option>
+					      </select>
+					    </div><div class="clearfix"></div>
+					  	<label for="driver1dob_month" class="col-lg-2 control-label">driver1dob_month</label>
+					    <div class="col-lg-8 ui-widget">
+					      <select class="form-control" id="driver1dob_month" placeholder="driver1dob_month" name="driver1dob_month">
+					      	<option value="1">1</option>
+					      	<option value="2">2</option>
+					      	<option value="3">3</option>
+					      	<option value="4">4</option>
+					      	<option value="5">5</option>
+					      	<option value="6">6</option>
+					      	<option value="7">7</option>
+					      	<option value="8">8</option>
+					      	<option value="9">9</option>
+					      	<option value="10">10</option>
+					      	<option value="11">11</option>
+					      	<option value="12">12</option>
+					      </select>
+					    </div><div class="clearfix"></div>
+					  	<label for="driver1dob_year" class="col-lg-2 control-label">driver1dob_year</label>
+					    <div class="col-lg-8 ui-widget">
+					      <select class="form-control" id="driver1dob_year" placeholder="driver1dob_year" name="driver1dob_year">
+					      	<option value="1995">1995</option>
+					      	<option value="1994">1994</option>
+					      	<option value="1993">1993</option>
+					      	<option value="1992">1992</option>
+					      	<option value="1991">1991</option>
+					      	<option value="1990">1990</option>
+					      	<option value="1989">1989</option>
+					      	<option value="1988">1988</option>
+					      	<option value="1987">1987</option>
+					      	<option value="1986">1986</option>
+					      	<option value="1985">1985</option>
+					      	<option value="1984">1984</option>
+					      	<option value="1983">1983</option>
+					      	<option value="1982">1982</option>
+					      	<option value="1981">1981</option>
+					      	<option value="1980">1980</option>
+					      	<option value="1979">1979</option>
+					      	<option value="1978">1978</option>
+					      	<option value="1977">1977</option>
+					      	<option value="1976">1976</option>
+					      </select>
+					    </div><div class="clearfix"></div>
+					  	<label for="driver1gender" class="col-lg-2 control-label">driver1gender</label>
+					    <div class="col-lg-8 ui-widget">
+					      <select class="form-control" id="driver1gender" placeholder="driver1gender" name="driver1gender">
+					      	<option value="Female">Female</option>
+					      	<option value="Male">Male</option>
+					      </select>
+					    </div><div class="clearfix"></div>
+					  	<label for="driver1maritalstatus" class="col-lg-2 control-label">driver1maritalstatus</label>
+					    <div class="col-lg-8 ui-widget">
+					      <select class="form-control" id="driver1maritalstatus" placeholder="driver1maritalstatus" name="driver1maritalstatus">
+					      	<option value="single">single</option>
+					      	<option value="married">married</option>
+					      	<option value="divorced">divorced</option>
+					      	<option value="separated">separated</option>
+					      	<option value="widowed">widowed</option>
+					      </select>
+					    </div><div class="clearfix"></div>
+					  	<label for="driver1occupation" class="col-lg-2 control-label">driver1occupation</label>
+					    <div class="col-lg-8 ui-widget">
+					      <select class="form-control" id="driver1occupation" placeholder="driver1occupation" name="driver1occupation">
+					      	<option value="ACCOUNTSREC">ACCOUNTSREC</option>
+					      	<option value="ACTOR">ACCOUNTSREC</option>
+					      	<option value="ADMINMGMT">ACCOUNTSREC</option>
+					      	<option value="APPRAISER">ACCOUNTSREC</option>
+					      	<option value="ARCHITECT">ACCOUNTSREC</option>
+					      </select>
+					    </div><div class="clearfix"></div>
+					  	<label for="driver1licenseage" class="col-lg-2 control-label">driver1licenseage</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="driver1licenseage" placeholder="driver1licenseage" name="driver1licenseage" value="26">
+					    </div><div class="clearfix"></div>
+					  	<label for="driver1yearsatresidence" class="col-lg-2 control-label">driver1yearsatresidence</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="driver1yearsatresidence" placeholder="driver1yearsatresidence" name="driver1yearsatresidence" value="10">
+					    </div><div class="clearfix"></div>
+					  	<label for="driver1sr22" class="col-lg-2 control-label">driver1sr22</label>
+					    <div class="col-lg-8">
+					      <select class="form-control" id="driver1sr22" placeholder="driver1sr22" name="driver1sr22">
+					      	<option value="false">false</option>
+					      	<option value="true">true</option>
+					      </select>
+					    </div><div class="clearfix"></div>
+					  	<label for="driver1credit" class="col-lg-2 control-label">driver1credit</label>
+					    <div class="col-lg-8">
+					      <select class="form-control" id="driver1credit" placeholder="driver1credit" name="driver1credit">
+					      	<option value="Excellent">Excellent</option>
+					      	<option value="Good">Good</option>
+					      	<option value="Poor">Poor</option>
+					      	<option value="Average">Average</option>
+					      </select>
+					    </div><div class="clearfix"></div>
+					  	<label for="driver1yearsemployed" class="col-lg-2 control-label">driver1yearsemployed</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="driver1yearsemployed" placeholder="driver1yearsemployed" name="driver1yearsemployed" value="4">
+					    </div><div class="clearfix"></div>
+					  	<label for="driver1age" class="col-lg-2 control-label">driver1age</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="driver1age" placeholder="driver1age" name="driver1age" value="26">
+					    </div><div class="clearfix"></div>
+					  	<label for="currentpolicyexpiration" class="col-lg-2 control-label">currentpolicyexpiration</label>
+					    <div class="col-lg-8">
+					      <input type="date" class="form-control" id="currentpolicyexpiration" placeholder="currentpolicyexpiration" name="currentpolicyexpiration">
+					    </div><div class="clearfix"></div>
+					  	<label for="policystart" class="col-lg-2 control-label">policystart</label>
+					    <div class="col-lg-8">
+					      <input type="date" class="form-control" id="policystart" placeholder="policystart" name="policystart">
+					    </div><div class="clearfix"></div>
+					  	<label for="insuredsince" class="col-lg-2 control-label">insuredsince</label>
+					    <div class="col-lg-8">
+					      <input type="date" class="form-control" id="insuredsince" placeholder="insuredsince" name="insuredsince">
+					    </div><div class="clearfix"></div>
+					  	<label for="CURRENTINSURANCECOMPANY" class="col-lg-2 control-label">CURRENTINSURANCECOMPANY</label>
+					    <div class="col-lg-8">
+					      <select class="form-control" id="CURRENTINSURANCECOMPANY" placeholder="CURRENTINSURANCECOMPANY" name="CURRENTINSURANCECOMPANY">
+					      	<option value="21st Century Insurance">21st Century Insurance</option>
+					      	<option value="21st Century Insurance">AAA Insurance Co.</option>
+					      	<option value="21st Century Insurance">AARP</option>
+					      	<option value="21st Century Insurance">AETNA</option>
+					      	<option value="21st Century Insurance">AFLAC</option>
+					      </select>
+					    </div><div class="clearfix"></div>
+					  	<label for="desiredcoveragetype" class="col-lg-2 control-label">desiredcoveragetype</label>
+					    <div class="col-lg-8">
+					      <select class="form-control" id="desiredcoveragetype" placeholder="desiredcoveragetype" name="desiredcoveragetype">
+					      	<option value="BASIC">Basic</option>
+					      	<option value="STANDARD">Standard</option>
+					      	<option value="STATEMINIMUM">State minimum</option>
+					      	<option value="SUPERIOR">Superior</option>
+					      </select>
+					    </div><div class="clearfix"></div>
+					  	<label for="desiredcollisiondeductible" class="col-lg-2 control-label">desiredcollisiondeductible</label>
+					    <div class="col-lg-8">
+					      <select class="form-control" id="desiredcollisiondeductible" placeholder="desiredcollisiondeductible" name="desiredcollisiondeductible">
+					      	<option value="0">0</option>
+					      	<option value="500">500</option>
+					      	<option value="1000">1000</option>
+					      </select>
+					    </div><div class="clearfix"></div>
+					  	<label for="desiredcomprehensivedeductible" class="col-lg-2 control-label">desiredcomprehensivedeductible</label>
+					    <div class="col-lg-8">
+					      <select class="form-control" id="desiredcomprehensivedeductible" placeholder="desiredcomprehensivedeductible" name="desiredcomprehensivedeductible">
+					      	<option value="0">0</option>
+					      	<option value="500">500</option>
+					      	<option value="1000">1000</option>
+					      </select>
+					    </div><div class="clearfix"></div>
+					  	<label for="propertydamage" class="col-lg-2 control-label">propertydamage</label>
+					    <div class="col-lg-8">
+					      <select class="form-control" id="propertydamage" placeholder="propertydamage" name="propertydamage">
+					      	<option value="300">300</option>
+					      	<option value="500">500</option> <!-- I cant find its correct values and mappings -->
+					      </select>
+					    </div><div class="clearfix"></div>
+					  	<label for="contact" class="col-lg-2 control-label">contact</label>
+					    <div class="col-lg-8">
+					      <select class="form-control" id="contact" placeholder="contact" name="contact">
+					      	<option value="Morning">Morning</option>
+					      	<option value="Afternoon">Afternoon</option>
+					      	<option value="Evening">Evening</option>
+					      </select>
+					    </div><div class="clearfix"></div>
+					  	<label for="yearsatresidence" class="col-lg-2 control-label">yearsatresidence</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="yearsatresidence" placeholder="yearsatresidence" name="yearsatresidence" value="10">
+					    </div><div class="clearfix"></div>
+					  	<label for="bodilyinjury" class="col-lg-2 control-label">bodilyinjury</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="bodilyinjury" placeholder="bodilyinjury" name="bodilyinjury" value="100">
+					    </div><div class="clearfix"></div>
+					  	<label for="vehicle1year" class="col-lg-2 control-label">vehicle1year</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="vehicle1year" placeholder="vehicle1year" name="vehicle1year" value="2010">
+					    </div><div class="clearfix"></div>
+					  	<label for="vehicle1make" class="col-lg-2 control-label">vehicle1make</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="vehicle1make" placeholder="vehicle1make" name="vehicle1make" value="Hyundai">
+					    </div><div class="clearfix"></div>
+					  	<label for="vehicle1commuteAvgMileage" class="col-lg-2 control-label">vehicle1commuteAvgMileage</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="vehicle1commuteAvgMileage" placeholder="vehicle1commuteAvgMileage" name="vehicle1commuteAvgMileage" value="8">
+					    </div><div class="clearfix"></div>
+					  	<label for="vehicle1annualMileage" class="col-lg-2 control-label">vehicle1annualMileage</label>
+					    <div class="col-lg-8">
+					      <select class="form-control" id="contact" placeholder="contact" name="contact">
+					      	<option value="6000" selected>6000</option>
+					      	<option value="12000">12000</option>
+					      	<option value="21000">21000</option>
+					      	<option value="45000">45000</option>
+					      	<option value="80000">80000</option>
+					      </select>
+					    </div><div class="clearfix"></div>
+					  	<label for="vehicle1primaryUse" class="col-lg-2 control-label">vehicle1primaryUse</label>
+					    <div class="col-lg-8">
+					      <select class="form-control" id="vehicle1primaryUse" placeholder="vehicle1primaryUse" name="vehicle1primaryUse">
+					      	<option value="business" selected>business</option>
+					      	<option value="commutework">commute to work</option>
+					      	<option value="farm">farming</option>
+					      	<option value="gov">government</option>
+					      	<option value="pleasure">pleasure</option>
+							<option value="selfemployed">self employed</option>
+					      </select>
+					    </div><div class="clearfix"></div>
+					  	<label for="vehicle1leased" class="col-lg-2 control-label">vehicle1leased</label>
+					    <div class="col-lg-8">
+					      <select class="form-control" id="vehicle1leased" placeholder="vehicle1leased" name="vehicle1leased">
+					      	<option value="1" selected>leased</option>
+					      	<option value="0">owned</option>
+					      </select>
+					    </div><div class="clearfix"></div>
+					  	<label for="vehicle1trim" class="col-lg-2 control-label">vehicle1trim</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="vehicle1trim" placeholder="vehicle1trim" name="vehicle1trim" value="Blue">
+					    </div><div class="clearfix"></div>
+					  	<label for="vehicle1garageType" class="col-lg-2 control-label">vehicle1garageType</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="vehicle1garageType" placeholder="vehicle1garageType" name="vehicle1garageType" value="Full Garage">
+					    </div><div class="clearfix"></div>
+					  	<label for="vehicle1alarm" class="col-lg-2 control-label">vehicle1alarm</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="vehicle1alarm" placeholder="vehicle1alarm" name="vehicle1alarm" value="Alarm">
+					    </div><div class="clearfix"></div>
+					  	<label for="vehicle1ownership" class="col-lg-2 control-label">vehicle1ownership</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="vehicle1ownership" placeholder="vehicle1ownership" name="vehicle1ownership" value="Leased">
+					    </div><div class="clearfix"></div>
+					  	<label for="vehicle1distance" class="col-lg-2 control-label">vehicle1distance</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="vehicle1distance" placeholder="vehicle1distance" name="vehicle1distance" value="9">
+					    </div><div class="clearfix"></div>
+					  	<label for="vehicle1commutedays" class="col-lg-2 control-label">vehicle1commutedays</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="vehicle1commutedays" placeholder="vehicle1commutedays" name="vehicle1commutedays" value="4">
+					    </div><div class="clearfix"></div>
+						<label for="vertical" class="col-lg-2 control-label">vertical</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="vertical" placeholder="vertical" name="vertical" value="ains">
+					    </div><div class="clearfix"></div>
+					  	<label for="cam" class="col-lg-2 control-label">cam</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="cam" placeholder="cam" name="cam" value="ad1_pp_6">
+					    </div><div class="clearfix"></div>
+					  	<label for="useragent" class="col-lg-2 control-label">useragent</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="useragent" placeholder="useragent" name="useragent" value="Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.94 Safari/537.36">
+					    </div><div class="clearfix"></div>
+					  	<label for="ipaddress" class="col-lg-2 control-label">ipaddress</label>
+					    <div class="col-lg-8">
+					      <input type="text" class="form-control" id="ipaddress" placeholder="ipaddress" name="ipaddress" value="252.252.211.211">
+					    </div><div class="clearfix"></div>
 					  	<label for="referer" class="col-lg-2 control-label">referer</label>
 					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="referer" placeholder="referer" name="referer">
-					    </div>
+					      <input type="text" class="form-control" id="referer" placeholder="referer" name="referer" value="https://www.facebook.com/">
+					    </div><div class="clearfix"></div>
 					  	<label for="leadtype" class="col-lg-2 control-label">leadtype</label>
 					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="leadtype" placeholder="leadtype" name="leadtype">
-					    </div>
+					      <input type="text" class="form-control" id="leadtype" placeholder="leadtype" name="leadtype" value="ShortForm">
+					    </div><div class="clearfix"></div>
 					    <label for="keyword" class="col-lg-2 control-label">keyword</label>
 					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="keyword" placeholder="keyword" name="keyword">
-					    </div>
+					      <input type="text" class="form-control" id="keyword" placeholder="keyword" name="keyword" value="social">
+					    </div><div class="clearfix"></div>
 					  	<label for="variant" class="col-lg-2 control-label">variant</label>
 					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="variant" placeholder="variant" name="variant">
-					    </div>
+					      <input type="text" class="form-control" id="variant" placeholder="variant" name="variant" value="gadget_copy">
+					    </div><div class="clearfix"></div>
 					  	<label for="currentlyinsured" class="col-lg-2 control-label">currentlyinsured</label>
 					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="currentlyinsured" placeholder="currentlyinsured" name="currentlyinsured">
-					    </div>
+					      <input type="text" class="form-control" id="currentlyinsured" placeholder="currentlyinsured" name="currentlyinsured" value="1">
+					    </div><div class="clearfix"></div>
 					  	<label for="currentresidence" class="col-lg-2 control-label">currentresidence</label>
 					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="currentresidence" placeholder="currentresidence" name="currentresidence">
-					    </div>
-					  	<label for="driver2edulevel" class="col-lg-2 control-label">driver2edulevel</label>
-					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="driver2edulevel" placeholder="driver2edulevel" name="driver2edulevel">
-					    </div>
+					      <input type="text" class="form-control" id="currentresidence" placeholder="currentresidence" name="currentresidence" value="Own">
+					    </div><div class="clearfix"></div>
 					  	<label for="cookie" class="col-lg-2 control-label">cookie</label>
 					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="cookie" placeholder="cookie" name="cookie">
-					    </div>
+					      <input type="text" class="form-control" id="cookie" placeholder="cookie" name="cookie" value="2f42075a6151eec7cb8424be36d5cf4a">
+					    </div><div class="clearfix"></div>
 					  	<label for="keywords" class="col-lg-2 control-label">keywords</label>
 					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="keywords" placeholder="keywords" name="keywords">
-					    </div>
+					      <input type="text" class="form-control" id="keywords" placeholder="keywords" name="keywords" value="social|facebook|||social|gadget_copy">
+					    </div><div class="clearfix"></div>
 					  	<label for="vendoremail" class="col-lg-2 control-label">vendoremail</label>
 					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="vendoremail" placeholder="vendoremail" name="vendoremail">
-					    </div>
+					      <input type="text" class="form-control" id="vendoremail" placeholder="vendoremail" name="vendoremail" value="facebook">
+					    </div><div class="clearfix"></div>
 					  	<label for="vendorpassword" class="col-lg-2 control-label">vendorpassword</label>
 					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="vendorpassword" placeholder="vendorpassword" name="vendorpassword">
-					    </div>
+					      <input type="text" class="form-control" id="vendorpassword" placeholder="vendorpassword" name="vendorpassword" value="ueint">
+					    </div><div class="clearfix"></div>
 					  	<label for="vendorid" class="col-lg-2 control-label">vendorid</label>
 					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="vendorid" placeholder="vendorid" name="vendorid">
-					    </div>
+					      <input type="text" class="form-control" id="vendorid" placeholder="vendorid" name="vendorid" value="underground">
+					    </div><div class="clearfix"></div>
 					  	<label for="keyword_id" class="col-lg-2 control-label">keyword_id</label>
 					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="keyword_id" placeholder="keyword_id" name="keyword_id">
-					    </div>
+					      <input type="text" class="form-control" id="keyword_id" placeholder="keyword_id" name="keyword_id" value="2712">
+					    </div><div class="clearfix"></div>
 					  	<label for="variant_id" class="col-lg-2 control-label">variant_id</label>
 					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="variant_id" placeholder="variant_id" name="variant_id">
-					    </div>
+					      <input type="text" class="form-control" id="variant_id" placeholder="variant_id" name="variant_id" value="25214">
+					    </div><div class="clearfix"></div>
 					  	<label for="site_id" class="col-lg-2 control-label">site_id</label>
 					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="site_id" placeholder="site_id" name="site_id">
-					    </div>
+					      <input type="text" class="form-control" id="site_id" placeholder="site_id" name="site_id" value="233">
+					    </div><div class="clearfix"></div>
 					  	<label for="hid" class="col-lg-2 control-label">hid</label>
 					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="hid" placeholder="hid" name="hid">
-					    </div>
+					      <input type="text" class="form-control" id="hid" placeholder="hid" name="hid" value="nvt-node12">
+					    </div><div class="clearfix"></div>
 					  	<label for="dynotrax_id" class="col-lg-2 control-label">dynotrax_id</label>
 					    <div class="col-lg-8">
-					      <input type="text" class="form-control" id="dynotrax_id" placeholder="dynotrax_id" name="dynotrax_id">
-					    </div>
+					      <input type="text" class="form-control" id="dynotrax_id" placeholder="dynotrax_id" name="dynotrax_id" value="51ae795b91e1e77b45000005">
+					    </div><div class="clearfix"></div>
 
 						<label class="col-lg-2 control-label"></label>
 					    <div class="col-lg-8">
@@ -302,7 +794,12 @@
 					    </div>
 					  </div>
 	 				</form>
-					
+
+
+
+
+
+
 					<form class="form-horizontal" role="form" id="healthInsuranceForm" method="post">
 						<strong>Health Insurance Form bai Junie</strong>
 						<div class="form-group">

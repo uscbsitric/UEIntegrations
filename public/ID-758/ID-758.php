@@ -30,7 +30,7 @@
 				 "state":"AZ",
 				 "st":"AR",
 				 "_State":"AR",
-				 "zip":"94132",
+				 "zip":"94133",
 				 "_PostalCode":"94133",
 				 "ueid":"glsr_051ec73374d383_G_EXed=anthanthem com register&t=anthem com register",
 				 "country_code":"1",
@@ -68,10 +68,10 @@
 	
 	$response = getCurlRequest($ldTestUrl, array('temp1'   => $lmsDataJsonDecoded['AFID'],
 											   'zip' 	   => $lmsDataJsonDecoded['zip'],
-											   'firstname' => 'CfrederickB', //change this when confronted with Lead Rejected because of duplicates;
-											   'lastname'  => 'Xsandalof', //change this when confronted with Lead Rejected because of duplicates;
-											   'email' 	   => 'C.frederick.sandalo@gmail.com', //change this when confronted with Lead Rejected because of duplicates;
-											   'phone' 	   => '626-201-2361',
+											   'firstname' => 'Aac', //change this when confronted with Lead Rejected because of duplicates;
+											   'lastname'  => 'Aac', //change this when confronted with Lead Rejected because of duplicates;
+											   'email' 	   => 'aac@gmail.com', //change this when confronted with Lead Rejected because of duplicates;
+											   'phone' 	   => '626-201-2362',
 											   'address1'  => '1509 5th Ave',
 											   'mm' 	   => '08',
 											   'dd' 	   => '04',
@@ -81,7 +81,7 @@
 											   'IP' => $lmsDataJsonDecoded['ipaddress'],
 											   'city' => $lmsDataJsonDecoded['city'],
 											   'state' => $lmsDataJsonDecoded['state'],
-											   'effectiveDate' => '09/03/2013',
+											   'effectiveDate' => '09/05/2013',
 											  )
 							  );
 	
