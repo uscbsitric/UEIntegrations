@@ -89,6 +89,19 @@ $config = array('accountUrl'  	 => 'https://connect-myinsurance.bpmonline.com/0/
 		  "vehicle1ownership":"Leased",
 		  "vehicle1distance":"9",
 		  "vehicle1commutedays":"4",
+		  "vehicle2year":"2011",
+		  "vehicle2make":"Jeep",
+		  "vehicle2model":"Rubicon",
+		  "vehicle2commuteAvgMileage":"7",
+		  "vehicle2annualMileage":"25000",
+		  "vehicle2primaryUse":"Commute",
+		  "vehicle2leased":"Owned",
+		  "vehicle2trim":"Blue",
+		  "vehicle21garageType":"Full Garage",
+		  "vehicle2alarm":"Alarm",
+		  "vehicle2ownership":"Leased",
+		  "vehicle2distance":"10",
+		  "vehicle2commutedays":"5",
 		  "vertical":"ains",
 		  "cam":"ad1_pp_6",
 		  "useragent":"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.94 Safari/537.36",
@@ -231,170 +244,170 @@ echo "<br><br>";
     switch( strtoupper($lmsDataJsonDecoded['vehicle1make']) )
     {
       case 'ACURA':
-	$lmsDataJsonDecoded['vehicle1make'] = '9188a5e0-a920-49b7-9a4e-c672a8f90dc3';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '9188a5e0-a920-49b7-9a4e-c672a8f90dc3';
       break;
       case 'ASTON MARTIN':
-	$lmsDataJsonDecoded['vehicle1make'] = '13889d2f-3091-4808-bc52-a3b655652609';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '13889d2f-3091-4808-bc52-a3b655652609';
       break;
       case 'AUDI':
-	$lmsDataJsonDecoded['vehicle1make'] = '9c6e88e0-8a6c-41ba-84be-d754e29cc92b';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '9c6e88e0-8a6c-41ba-84be-d754e29cc92b';
       break;
       case 'AZURE DYNAMICS':
-	$lmsDataJsonDecoded['vehicle1make'] = '293bbcf4-af28-41d1-8766-872dededcaad';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '293bbcf4-af28-41d1-8766-872dededcaad';
       break;
       case 'BMW':
-	$lmsDataJsonDecoded['vehicle1make'] = '066f97d2-f615-4c14-a3a6-295959059b9d';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '066f97d2-f615-4c14-a3a6-295959059b9d';
       break;
       case 'BUICK':
-	$lmsDataJsonDecoded['vehicle1make'] = 'b6ff2363-2510-4e5c-b963-00084cee286e';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = 'b6ff2363-2510-4e5c-b963-00084cee286e';
       break;
       case 'CADILLAC':
-	$lmsDataJsonDecoded['vehicle1make'] = '5f055f76-38df-4128-9193-c5b9c4c0a1b4';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '5f055f76-38df-4128-9193-c5b9c4c0a1b4';
       break;
       case 'CHEVROLET':
-	$lmsDataJsonDecoded['vehicle1make'] = '4580ba0f-8425-49a3-8ef8-ac117de1b059';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '4580ba0f-8425-49a3-8ef8-ac117de1b059';
       break;
       case 'CHRYSLER':
-	$lmsDataJsonDecoded['vehicle1make'] = '2fb530f2-b84e-4109-8361-5f76cbe1e3b3';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '2fb530f2-b84e-4109-8361-5f76cbe1e3b3';
       break;
       case 'DODGE':
-	$lmsDataJsonDecoded['vehicle1make'] = '49baf27e-12d4-442b-911a-03927c16d378';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '49baf27e-12d4-442b-911a-03927c16d378';
       break;
       case 'FERRARI':
-	$lmsDataJsonDecoded['vehicle1make'] = 'ad2909e4-3946-4628-af7a-ebbcad5f0769';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = 'ad2909e4-3946-4628-af7a-ebbcad5f0769';
       break;
       case 'FIAT':
-	$lmsDataJsonDecoded['vehicle1make'] = '3f0f9ca0-d2dd-495f-bfa4-e2048eaf01f7';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '3f0f9ca0-d2dd-495f-bfa4-e2048eaf01f7';
       break;
       case 'FORD':
-	$lmsDataJsonDecoded['vehicle1make'] = 'a2cbd3e4-fa05-4e2a-a38c-7fc8fe1fbd78';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = 'a2cbd3e4-fa05-4e2a-a38c-7fc8fe1fbd78';
       break;
       case 'GMC':
-	$lmsDataJsonDecoded['vehicle1make'] = 'ac23264c-a747-4166-b795-8df287667f94';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = 'ac23264c-a747-4166-b795-8df287667f94';
       break;
       case 'HONDA':
-	$lmsDataJsonDecoded['vehicle1make'] = '7454989b-39e1-46e9-afbd-d9d5074d9ea2';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '7454989b-39e1-46e9-afbd-d9d5074d9ea2';
       break;
       case 'HYUNDAI':
-	$lmsDataJsonDecoded['vehicle1make'] = 'c388ed57-ae55-4c6a-89e3-057f2fb899f9';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = 'c388ed57-ae55-4c6a-89e3-057f2fb899f9';
       break;
       case 'INFINITI':
-	$lmsDataJsonDecoded['vehicle1make'] = '8bc09c5c-fbf8-4b64-b1ba-0d02c297b988';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '8bc09c5c-fbf8-4b64-b1ba-0d02c297b988';
       break;
       case 'JAGUAR':
-	$lmsDataJsonDecoded['vehicle1make'] = '1f4098d1-fb05-44fe-bccd-bd308eeeca1c';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '1f4098d1-fb05-44fe-bccd-bd308eeeca1c';
       break;
       case 'JEEP':
-	$lmsDataJsonDecoded['vehicle1make'] = 'b4451646-1be5-499f-86f9-901a86e54ede';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = 'b4451646-1be5-499f-86f9-901a86e54ede';
       break;
       case 'KIA':
-	$lmsDataJsonDecoded['vehicle1make'] = '9b955728-16dc-42ed-a147-ed163a7634ea';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '9b955728-16dc-42ed-a147-ed163a7634ea';
       break;
       case 'LAND ROVER':
-	$lmsDataJsonDecoded['vehicle1make'] = 'cb76e8c8-bba2-48b0-895a-04c25cef5dce';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = 'cb76e8c8-bba2-48b0-895a-04c25cef5dce';
       break;
       case 'LEXUS':
-	$lmsDataJsonDecoded['vehicle1make'] = '8bc2fd6c-50e6-43eb-ad04-f8e253e154f5';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '8bc2fd6c-50e6-43eb-ad04-f8e253e154f5';
       break;
       case 'LINCOLN':
-	$lmsDataJsonDecoded['vehicle1make'] = 'd45b8df2-1a09-406b-9e0f-e5feca33e4f0';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = 'd45b8df2-1a09-406b-9e0f-e5feca33e4f0';
       break;
       case 'LOTUS':
-	$lmsDataJsonDecoded['vehicle1make'] = 'a191c656-02bf-49ab-bda7-900789920bae';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = 'a191c656-02bf-49ab-bda7-900789920bae';
       break;
       case 'MASERATI':
-	$lmsDataJsonDecoded['vehicle1make'] = '38819946-5876-44e9-9152-5882ddb0ad24';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '38819946-5876-44e9-9152-5882ddb0ad24';
       break;
       case 'MAZDA':
-	$lmsDataJsonDecoded['vehicle1make'] = '10f7a97d-1de5-40b5-8bbf-f4018f316301';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '10f7a97d-1de5-40b5-8bbf-f4018f316301';
       break;
       case 'MCLAREN':
-	$lmsDataJsonDecoded['vehicle1make'] = 'e05cf4ae-a171-4bb2-9c07-5a8823b758c7';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = 'e05cf4ae-a171-4bb2-9c07-5a8823b758c7';
       break;
       case 'MERCEDES-BENZ':
-	$lmsDataJsonDecoded['vehicle1make'] = '38a4d018-e398-4c41-a8a6-b7e0ae93b728';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '38a4d018-e398-4c41-a8a6-b7e0ae93b728';
       break;
       case 'MERCEDEZ BENZ':
-	$lmsDataJsonDecoded['vehicle1make'] = '0d2c87ec-97a0-4278-830e-e0037b306781';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '0d2c87ec-97a0-4278-830e-e0037b306781';
       break;
       case 'MERCURY':
-	$lmsDataJsonDecoded['vehicle1make'] = '2a1ef2db-f2f3-4f6e-a54f-4e4976917269';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '2a1ef2db-f2f3-4f6e-a54f-4e4976917269';
       break;
       case 'MINI':
-	$lmsDataJsonDecoded['vehicle1make'] = 'bf834c18-af25-409e-8123-257eb03b435e';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = 'bf834c18-af25-409e-8123-257eb03b435e';
       break;
       case 'MITSUBISHI':
-	$lmsDataJsonDecoded['vehicle1make'] = '6d7f4fc8-479c-4879-84a1-8b82c17211d5';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '6d7f4fc8-479c-4879-84a1-8b82c17211d5';
       break;
       case 'NISSAN':
-	$lmsDataJsonDecoded['vehicle1make'] = '63db129e-b0b6-42ea-b430-6e43311c8689';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '63db129e-b0b6-42ea-b430-6e43311c8689';
       break;
       case 'OLDSMOBILE':
-	$lmsDataJsonDecoded['vehicle1make'] = '7639c283-5241-4562-93f4-c3813984c6ef';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '7639c283-5241-4562-93f4-c3813984c6ef';
       break;
       case 'PLYMOUTH':
-	$lmsDataJsonDecoded['vehicle1make'] = 'd29f59b9-71bf-4306-8848-9a096165e2e0';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = 'd29f59b9-71bf-4306-8848-9a096165e2e0';
       break;
       case 'PONTIAC':
-	$lmsDataJsonDecoded['vehicle1make'] = 'e2289380-4afb-4794-9e0a-510179bdc21f';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = 'e2289380-4afb-4794-9e0a-510179bdc21f';
       break;
       case 'PORSCHE':
-	$lmsDataJsonDecoded['vehicle1make'] = '4f839a11-8823-4494-a791-623fdcf96fd4';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '4f839a11-8823-4494-a791-623fdcf96fd4';
       break;
       case 'RAM':
-	$lmsDataJsonDecoded['vehicle1make'] = 'b2574d9f-c2ac-44fa-864a-5b38879d4bb7';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = 'b2574d9f-c2ac-44fa-864a-5b38879d4bb7';
       break;
       case 'SAAB':
-	$lmsDataJsonDecoded['vehicle1make'] = '7f6ac617-af26-4e20-ae17-43f8accef257';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '7f6ac617-af26-4e20-ae17-43f8accef257';
       break;
       case 'SATURN':
-	$lmsDataJsonDecoded['vehicle1make'] = '31e7e352-e638-4ce8-8dfd-fbf5cfb76700';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '31e7e352-e638-4ce8-8dfd-fbf5cfb76700';
       break;
       case 'SMART':
-	$lmsDataJsonDecoded['vehicle1make'] = '5d6f384c-7bb1-4850-baca-4d1633d8e684';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '5d6f384c-7bb1-4850-baca-4d1633d8e684';
       break;
       case 'SUBARU':
-	$lmsDataJsonDecoded['vehicle1make'] = 'd6e0347b-a077-4db5-9103-cc125958b02e';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = 'd6e0347b-a077-4db5-9103-cc125958b02e';
       break;
       case 'SUZUKI':
-	$lmsDataJsonDecoded['vehicle1make'] = 'ff9abf46-b99c-4348-b9e3-3c12efa99ab7';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = 'ff9abf46-b99c-4348-b9e3-3c12efa99ab7';
       break;
       case 'TESLA':
-	$lmsDataJsonDecoded['vehicle1make'] = '3d3520e7-e46c-49e7-9537-b1e187f9df81';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '3d3520e7-e46c-49e7-9537-b1e187f9df81';
       break;
       case 'TOYOTA':
-	$lmsDataJsonDecoded['vehicle1make'] = 'd6c5582e-6198-4f10-839d-088f394fed1b';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = 'd6c5582e-6198-4f10-839d-088f394fed1b';
       break;
       case 'VOLKSWAGEN':
-	$lmsDataJsonDecoded['vehicle1make'] = '1835d04e-0849-4a2e-a4fe-26b177d38632';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '1835d04e-0849-4a2e-a4fe-26b177d38632';
       break;
       default: // 'VOLVO'
-	$lmsDataJsonDecoded['vehicle1make'] = '352adab7-2644-4737-a41b-001cbf855dbf';
+	$lmsDataJsonDecoded['vehicle1make'] = $lmsDataJsonDecoded['vehicle2make'] = '352adab7-2644-4737-a41b-001cbf855dbf';
       break;
     }
     switch( $lmsDataJsonDecoded['vehicle1ownership'] )
     {
       case 'Leased':
-	$lmsDataJsonDecoded['vehicle1ownership'] = 'd5f571ef-5bcc-416b-b97a-379bc45a7aff';
+	$lmsDataJsonDecoded['vehicle1ownership'] = $lmsDataJsonDecoded['vehicle2ownership'] = 'd5f571ef-5bcc-416b-b97a-379bc45a7aff';
       break;
       case 'Owned';
-	$lmsDataJsonDecoded['vehicle1ownership'] = '2d6ea226-93d8-4380-8c24-679da4d66862';
+	$lmsDataJsonDecoded['vehicle1ownership'] = $lmsDataJsonDecoded['vehicle2ownership'] = '2d6ea226-93d8-4380-8c24-679da4d66862';
       break;
       default:
-	$lmsDataJsonDecoded['vehicle1ownership'] = '8ededa22-2a32-417a-b3ee-35ec3855a518';
+	$lmsDataJsonDecoded['vehicle1ownership'] = $lmsDataJsonDecoded['vehicle2ownership'] = '8ededa22-2a32-417a-b3ee-35ec3855a518';
       break;
     }
 
     switch( $lmsDataJsonDecoded['vehicle1primaryUse'] )
     {
       case 'Commute':
-	 $lmsDataJsonDecoded['vehicle1primaryUse'] = '62c9a8ce-56c5-4942-be03-433f6e6dda93';
+	 $lmsDataJsonDecoded['vehicle1primaryUse'] = $lmsDataJsonDecoded['vehicle2primaryUse'] = '62c9a8ce-56c5-4942-be03-433f6e6dda93';
       break;
       case 'Business':
-	 $lmsDataJsonDecoded['vehicle1primaryUse'] = '5a53233c-1a87-464c-854d-8610009b9eaa';
+	 $lmsDataJsonDecoded['vehicle1primaryUse'] = $lmsDataJsonDecoded['vehicle2primaryUse'] = '5a53233c-1a87-464c-854d-8610009b9eaa';
       break;
       default:
-	 $lmsDataJsonDecoded['vehicle1primaryUse'] = '7f82b1b4-6661-4201-b779-aabe9c61da57';
+	 $lmsDataJsonDecoded['vehicle1primaryUse'] = $lmsDataJsonDecoded['vehicle2primaryUse'] = '7f82b1b4-6661-4201-b779-aabe9c61da57';
       break;
     }
  
@@ -433,10 +446,10 @@ echo "<br><br>";
     switch( strtolower($lmsDataJsonDecoded['vehicle1leased']) )
     {
       case 'owned':
-	 $lmsDataJsonDecoded['vehicle1leased'] = 0;
+	 $lmsDataJsonDecoded['vehicle1leased'] = $lmsDataJsonDecoded['vehicle2leased'] = 0;
       break;
       default:
-	 $lmsDataJsonDecoded['vehicle1leased'] = 1;
+	 $lmsDataJsonDecoded['vehicle1leased'] = $lmsDataJsonDecoded['vehicle2leased'] = 1;
       break;
     }
 
@@ -598,15 +611,24 @@ function generatePropertiesXML($lead = array())
 				    <d:CustomerHousholdLookupId m:type="Edm.Guid">'.$lead['accountDataGUID'].'</d:CustomerHousholdLookupId>
 				    <d:NamedInsuredLookupId m:type="Edm.Guid">'.$lead['contactDataGUID'].'</d:NamedInsuredLookupId>
 				    <d:VehYearColumn1>'.$lead['vehicle1year'].'</d:VehYearColumn1>
+				    		<d:VehYearColumn2>'.$lead['vehicle2year'].'</d:VehYearColumn2>
 				    <d:VehMakeLookup1Id m:type="Edm.Guid">'.$lead['vehicle1make'].'</d:VehMakeLookup1Id>
+				    		<d:VehMakeLookup2Id m:type="Edm.Guid">'.$lead['vehicle2make'].'</d:VehMakeLookup2Id>
 				    <d:VehModelColumn1>'.$lead['vehicle1model'].'</d:VehModelColumn1>
+				    		<d:VehModelColumn2>'.$lead['vehicle2model'].'</d:VehModelColumn2>
 				    <d:VehTrimColumn1>'.$lead['vehicle1trim'].'</d:VehTrimColumn1>
+				    		<d:VehTrimColumn2>'.$lead['vehicle2trim'].'</d:VehTrimColumn2>
 				    <d:LeasedBoolean1>'.$lead['vehicle1leased'].'</d:LeasedBoolean1>
+				    		<d:LeasedBoolean2>'.$lead['vehicle2leased'].'</d:LeasedBoolean2>
 				    <d:OwnershipLookup1Id m:type="Edm.Guid">'.$lead['vehicle1ownership'].'</d:OwnershipLookup1Id>
+				    		<d:OwnershipLookup2Id m:type="Edm.Guid">'.$lead['vehicle2ownership'].'</d:OwnershipLookup2Id>
 				    <d:TimeAtResColumn1>'.$lead['yearsatresidence'].'</d:TimeAtResColumn1>
 				    <d:PrimaryUseLookup1Id m:type="Edm.Guid">'.$lead['vehicle1primaryUse'].'</d:PrimaryUseLookup1Id>
+				    		<d:PrimaryUseLookup2Id m:type="Edm.Guid">'.$lead['vehicle2primaryUse'].'</d:PrimaryUseLookup2Id>
 				    <d:MilesDrivenColumn1>'.$lead['vehicle1commuteAvgMileage'].'</d:MilesDrivenColumn1>
+				    		<d:MilesDrivenColumn2>'.$lead['vehicle2commuteAvgMileage'].'</d:MilesDrivenColumn2>
 				    <d:AnnualMilesColumn1>'.$lead['vehicle1annualMileage'].'</d:AnnualMilesColumn1>
+				    		<d:AnnualMilesColumn2>'.$lead['vehicle2annualMileage'].'</d:AnnualMilesColumn2>
 				    <d:CompDedLookup1Id m:type="Edm.Guid">'.$lead['desiredcomprehensivedeductible'].'</d:CompDedLookup1Id>
 				    <d:CollDedLookup1Id m:type="Edm.Guid">'.$lead['desiredcollisiondeductible'].'</d:CollDedLookup1Id>
 			      </m:properties>
