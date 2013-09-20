@@ -52,26 +52,26 @@ else {
 }
 
 
-$postvars = array('name' => $lmsData['name'],
-				  'lastname' => $lmsData['lastname'],
-		          'emailaddress' => $lmsData['emailaddress'],
-				  'address' => $lmsData['address'],
-				  'city' => $lmsData['city'],
-				  'state' => $lmsData['state'],
-				  'zip' => $lmsData['zip'],
-				  'homephone' => $lmsData['homephone'],
-				  'ipaddress' => $lmsData['ipaddress'],
-				  'dob_day' => $lmsData['dob_day'],
-				  'dob_month' => $lmsData['dob_month'],
-				  'dob_year' => $lmsData['dob_year'],
+$postvars = array('FirstName' => $lmsData['name'],
+				  'LastName' => $lmsData['lastname'],
+		          'EmailAddress' => $lmsData['emailaddress'],
+				  'Address' => $lmsData['address'],
+				  'City' => $lmsData['city'],
+				  'State' => $lmsData['state'],
+				  'Zip' => $lmsData['zip'],
+				  'Phone' => $lmsData['homephone'],
+				  'Ipaddress' => $lmsData['ipaddress'],
+				  'DateofBirthDay' => $lmsData['dob_day'],
+				  'DateofBirthMonth' => $lmsData['dob_month'],
+				  'DateofBirthYear' => $lmsData['dob_year'],
 				  'dob' => $lmsData['dob_year'] . '-' . $lmsData['dob_month'] . '-' . $lmsData['dob_day'],//'1946-10-25',
-				  'height' => $lmsData['height'],
-				  'weight' => $lmsData['weight'],
-				  'gender' => strtolower($lmsData['gender']),
-				  'tobacco' => $lmsData['tobacco'],
-				  'existingconditionstoggle' => '',
-				  'termlength' => $lmsData['termlength'],
-				  'coverageamount' => $lmsData['coverageamount']
+				  'Height' => $lmsData['height'],
+				  'Weight' => $lmsData['weight'],
+				  'Gender' => strtolower($lmsData['gender']),
+				  'Tobacco' => $lmsData['tobacco'],
+				  'ExistingConditions' => '',
+				  'TermLength' => $lmsData['termlength'],
+				  'CoverageAmount' => $lmsData['coverageamount']
 				 );
 $postvars = http_build_query($postvars);
 

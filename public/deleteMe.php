@@ -6,26 +6,26 @@ var_dump(urldecode('id=3720541&lms_lead_id=3720541&poststring=%7B%22vertical%22%
 		);
 */
 
-$formdata = array('name' => 'frederick',
-				  'lastname' => 'lastname',
-		          'emailaddress' => 'emailaddres@somewhere.com',
-				  'address' => 'somewhere',
-				  'city' => 'city',
-				  'state' => 'state',
-				  'zip' => 63101,
-				  'homephone' => 7203088584,
-				  'ipaddress' => '67.176.102.216',
-				  'dob_day' => 30,
-				  'dob_month' => 12,
-				  'dob_year' => 1967,
+$formdata = array('FirstName' => 'frederick',
+				  'LastName' => 'lastname',
+		          'EmailAddress' => 'emailaddres@somewhere.com',
+				  'Address' => 'somewhere',
+				  'City' => 'city',
+				  'State' => 'ar',
+				  'Zip' => 63101,
+				  'Phone' => 7203088584,
+				  'Ipaddress' => '67.176.102.216',
+				  'DateofBirthDay' => 30,
+				  'DateofBirthMonth' => 12,
+				  'DateofBirthYear' => 1967,
 				  'dob' => '1946-10-25',
-				  'height' => '5-7',
-				  'weight' => 185,
-				  'gender' => 'male',
-				  'tobacco' => 'no',
-				  'existingconditionstoggle' => 'no',
-				  'termlength' => 10,
-				  'coverageamount' => 25000
+				  'Height' => '5-7',
+				  'Weight' => 185,
+				  'Gender' => 'male',
+				  'Tobacco' => 'no',
+				  'ExistingConditions' => 'no',
+				  'TermLength' => 10,
+				  'CoverageAmount' => 25000
 				 );
 $postvars = http_build_query($formdata);
 
