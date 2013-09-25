@@ -1,5 +1,5 @@
 <?php
-	//require_once '../classes/pingpostCommon.php';
+	require_once '../classes/pingpostCommon.php';
 
 	function getCurlRequest($url, $params)
 	{
@@ -26,7 +26,7 @@
 		return $response;
 	}
 
-/* 	if (isset($argv[1]) && !empty($argv[1])) {
+ 	if (isset($argv[1]) && !empty($argv[1])) {
 		$leadid = $argv[1];
 	} else {
 		$leadid = isset($_POST['leadid']) ? $_POST['leadid'] : (isset($_GET['leadid']) ? $_GET['leadid'] : null);
@@ -45,28 +45,11 @@
 	}
 	
 	$postStringVals = json_decode($lmsData['poststring'], true);
-	$vals = array_merge($lmsData,$postStringVals, $_POST); */
+	$vals = array_merge($lmsData,$postStringVals, $_POST);
 
-	/*
-	$vals['FirstName'] = 'frederick';
-	$vals['LastName'] = 'frederick';
-	$vals['Address'] = 'frederick';
-	$vals['City'] = 'frederick';
-	$vals['ZipCode'] = 'frederick';
-	$vals['name'] = 'frederick';
-	$vals['name'] = 'frederick';
-	$vals['name'] = 'frederick';
-	$vals['name'] = 'frederick';
-	$vals['name'] = 'frederick';
-	$vals['name'] = 'frederick';
-	$vals['name'] = 'frederick';
-	$vals['name'] = 'frederick';
-	*/
-	
 	$url = 'http://www.smartautowarranty.com/HotDirect01.asp';
 	$params = array('paid' => 12, // value of 12 means this is for testing purposes only
-			
-				    'subpaid' => 'campaign123',
+				    'subpaid' => $leadid, //'campaign123'  <-- this is the value I used for testing, not sure what field to map this out, please check.
 				    'formname' => 'HotTransfer',
 				    'FirstName' => $vals['name'],
 				    'LastName' => $vals['lastname'],

@@ -80,7 +80,7 @@ $postvars = http_build_query($postvars);
  * cURL post query
  */
 
-$curlHandle = curl_init('https://secure.leads360.com/Import.aspx?Provider=UndergroundElephant&Client=EquifirstInsuranceAgency&CampaignId=36');
+$curlHandle = curl_init('https://secure.velocify.com/Import.aspx?Provider=UndergroundElephant&Client=EquifirstInsuranceAgency&CampaignId=36');
 curl_setopt($curlHandle, CURLOPT_POST, 1);
 curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postvars);
 curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, FALSE);
