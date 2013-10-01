@@ -5,6 +5,10 @@ var_dump(urldecode('id=3720541&lms_lead_id=3720541&poststring=%7B%22vertical%22%
 						   )
 		);
 */
+$data['vehicle[1][year]'] = 'sample';
+var_dump($data);
+exit();
+
 
 $formdata = array('FirstName' => 'frederick',
 				  'LastName' => 'lastname',
