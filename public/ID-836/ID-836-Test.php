@@ -1,6 +1,6 @@
 <?php
 
-require_once '../classes/pingpostCommon.php';
+//require_once '../classes/pingpostCommon.php';
 
 function curlposting($url , $params)
 {
@@ -28,7 +28,7 @@ function curlposting($url , $params)
 }
 
 
-if (empty($_POST)) {
+/* if (empty($_POST)) {
     echo "Result=NotSold - Empty post";
     exit;
 }
@@ -73,7 +73,7 @@ if ($vals['state'] == 'GA' && $vals['currentlyinsured'] == 'no')
 $current_resident_status = strtolower($vals['current_resident_status']);
 
 if($current_resident_status == "dormitory")
-        $current_resident_status = 'other';
+        $current_resident_status = 'other'; */
 
 $coverage['STATEMINIMUM'] = "Minimum Coverage";
 $coverage['BASIC'] = "15000/30000/5000";
@@ -85,7 +85,7 @@ $education['AA'] = "Associates";
 $education['BA'] = "Bachelors";
 $education['POST'] = "Masters";
 
-$driver1gender = ($vals['driver1gender'] == 'female') ? 'F':'M';
+//$driver1gender = ($vals['driver1gender'] == 'female') ? 'F':'M';
 
 $use["pleasure"] = "pleasure";
 $use["commutework"] = "commuting";
@@ -94,11 +94,11 @@ $use["selfemployed"] = "business";
 $use["gov"] = "commuting";
 $use["farm"] = "business";
 
-$driver1marital_status = ucfirst($vals['driver1marital_status']);
+//$driver1marital_status = ucfirst($vals['driver1marital_status']);
 
-$sr22 = ($vals['sr22'] == '1') ? 'suspended':'active';
+//$sr22 = ($vals['sr22'] == '1') ? 'suspended':'active';
 
-if($vals['currentlyinsured'] == "0")
+/* if($vals['currentlyinsured'] == "0")
 {
 	$current_insurance_carrier = "None";
 }
@@ -116,52 +116,56 @@ if ($vals['SubID'] == '1899' || $vals['SubID'] == '2431' || $vals['SubID'] == '2
 {
     echo "Traffic Source Filter on keyword 1899, 2431 and 2918";
     exit;
-}
+} */
 
-$data = array('ref_id' => $leadid,
+$data = array('ref_id' => '123',
 			  'PublisherID' => 62,
-			  'OfferID' => $vals['OfferID'],
-			  'FirstName' => $vals['name'],
-			  'LastName' => $vals['lastname'],
-			  'Address'	=> $vals['address'],
-			  'City' => $vals['city'],
-			  'State' => $vals['state'],
-			  'Zip' => $vals['zip'],
-			  'Email' => $vals['email'],
-			  'TimeStamp' => $vals['TimeStamp'],
-			  'current_insurance_carrier' => $vals['current_insurance_carrier']
+			  'OfferID' => 2,
+			  'FirstName' => 'frederick',
+			  'LastName' => 'sandalo',
+			  'Address'	=> '16904 New Pine Drive',
+			  'City' => 'Hacienda Heights',
+			  'State' => 'CA',
+			  'Zip' => '91745',
+			  'Email' => 'beckypasillas@yahoo.com',
+			  'TimeStamp' => '2010-04-28 22:41:43',
+			  'current_insurance_carrier' => 'AAA'
 			 );
 
-if($vals['currentlyinsured'] != "no")
-	$data['current_insurance_expiration_date'] = $vals['current_insurance_expiration_date'];
+/* if($vals['currentlyinsured'] != "no")
+	$data['current_insurance_expiration_date'] = $vals['current_insurance_expiration_date']; */
 
-$data['vehicle[1][year]'] = $vals['vehicle1year'];
-$data['vehicle[1][make]'] = $vals['vehicle1make'];
-$data['vehicle[1][model]'] = $vals['vehicle1model'];
-$data['vehicle[1][submodel]'] = $vals['vehicle1trim'];
-$data['vehicle[1][est_annual_mileage]'] = $vals['vehicle1annualMileage'];
-$data['vehicle[1][desired_comprehensive_deductible]'] = $vals['desiredcomprehensivedeductible'];
-$data['vehicle[1][desired_collision_deductible]'] = $vals['desiredcollisiondeductible'];
-$data['driver[1][dob]'] = $vals['driver1dob_year'].'-'.$vals['driver1dob_month'].'-'.$vals['driver1dob_day'];
+
+
+
+$data['vehicle[1][year]'] = '2005';
+$data['vehicle[1][make]'] = 'Hyundai';
+$data['vehicle[1][model]'] = 'Accent';
+$data['vehicle[1][submodel]'] = 'Blue';
+$data['vehicle[1][est_annual_mileage]'] = '25000';
+$data['vehicle[1][desired_comprehensive_deductible]'] = '500';
+$data['vehicle[1][desired_collision_deductible]'] = '500';
+$data['driver[1][dob]'] = '1984'.'-'.'08'.'-'.'03';
 $data['driver[1][credit_self_rating]'] = 'Good';
 $data['driver[1][relation_to_applicant]'] = 'Self';
-$data['HomePhone'] = str_replace('-', '', $vals['homephone']);
-$data['vehicle[1][commute_miles]'] = $vals['vehicle1commute_miles'];
-$data['vehicle[1][main_use]'] = $use[$vals['vehicle1main_use']];
-$data['current_resident_status'] = $current_resident_status;
-$data['level_of_coverage_requested'] = $coverage[$vals['level_of_coverage_requested']];
-$data['driver[1][highest_degree]'] = $education[$vals['driver1highest_degree']];
-$data['driver[1][gender]'] = $driver1gender;
-$data['driver[1][marital_status]'] = $driver1marital_status;
-$data['driver[1][occupation]'] = $vals['driver1occupation'];
-$data['driver[1][license_first_received_age]'] = $vals['driver1license_first_received_age'];
-$data['driver[1][first_name]'] = $vals['name'];
-$data['driver[1][last_name]'] = $vals['lastname'];
-$data['driver[1][license_status]'] = $sr22;
-$data['SubID'] = $SubID;
-$data['test_post'] = 0;
+$data['HomePhone'] = '6262012360';
+$data['vehicle[1][commute_miles]'] = '8';
+$data['vehicle[1][main_use]'] = 'pleasure';
+$data['current_resident_status'] = 'other';
+$data['level_of_coverage_requested'] = 'Minimum Coverage';
+$data['driver[1][highest_degree]'] = 'Bachelors';
+$data['driver[1][gender]'] = 'M';
+$data['driver[1][marital_status]'] = 'Single';
+$data['driver[1][occupation]'] = 'Advertising/Public Relations';
+$data['driver[1][license_first_received_age]'] = '22';
+$data['driver[1][first_name]'] = 'frederick';
+$data['driver[1][last_name]'] = 'sandalo';
+$data['driver[1][license_status]'] = 'false';
+$data['SubID'] = 1279;
+$data['test_post'] = 1;
 
-if($vals['vehicle2model'] != '')
+
+/* if($vals['vehicle2model'] != '')
 {
 	$data['vehicle[2][year]'] = $vehicle2year;
 	$data['vehicle[2][make]'] = $vehicle2make;
@@ -199,13 +203,17 @@ if($vals['driver2occupation'] != '')
     $data['driver[2][dob]'] = $vals['dob2Year'].'-'.$vals['dob2Month'].'-'.$vals['dob2Day'];
     $data['driver[2][first_name]'] = 'Driver2';
     $data['driver[2][last_name]'] = 'Driver2';
-}
+} */
 
+
+//echo $data;
 
 $url = 'http://leads.consumerunited.com:7684/import';
+
 $res = curlposting($url, $data);
 
-echo $res;
+//echo $res;
+var_dump($res);
 
 
 ?>
