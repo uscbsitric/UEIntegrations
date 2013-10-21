@@ -4,7 +4,7 @@
 	function sendCurlRequest($url, $params, $marketID)
 	{
 		$params = http_build_query($params);
-		$params = $marketID . '&leads0=' . $params;
+		$params = 'MID'.$marketID . '&leads0=' . $params;
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_POST, TRUE);
@@ -40,8 +40,10 @@
 	
 	$postStringVals = json_decode($lmsData['poststring'], true);
 	$vals = array_merge($lmsData,$postStringVals, $_POST);
+	
 	$url = 'https://diana.matrixdirect.com/AutoLeads/autoleadsctrl';
 	$optInDate = new DateTime();
+	$marketId = '101';
 
 	$params = array('optIn' => 'Y',
 					'optInDate'=>$optInDate->format('Y-m-d H:i:s'),
@@ -54,5 +56,5 @@
 					'Client_DNIS'=>'1234',
 				   );
 	
-	$result = sendCurlRequest($url, $params);
+	$result = sendCurlRequest($url, $params, $marketId);
 	var_dump($result);
