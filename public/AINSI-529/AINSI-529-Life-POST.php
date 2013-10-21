@@ -39,6 +39,8 @@
 	$postStringVals = json_decode($lmsData['poststring'], true);
 	$vals = array_merge($lmsData,$postStringVals, $_POST);
 	
+	$height = explode('-', $vals['height']);
+	
 	$xmlPayload = '<?xml version="1.0"?>
 					<Request>
 						<Key>c65KclcVojZ_odK5ojoW9x-J8sfJ-.GjvxUEcjo.cg-JoW5_9d3uFePP</Key>
@@ -61,10 +63,10 @@
 							<Birth_Day>'.$vals['dob_day'].'</Birth_Day>
 							<Birth_Year>'.$vals['dob_year'].'</Birth_Year>
 							<Age>21</Age>
-							<Height_Feet></Height_Feet>
-							<Height_Inches></Height_Inches>
-							<Sex></Sex>
-							<Face_Amount></Face_Amount>
+							<Height_Feet>'.$height[0].'</Height_Feet>
+							<Height_Inches>'.$height[1].'</Height_Inches>
+							<Sex>'.ucfirst( strtolower($vals['gender']) ).'</Sex>
+							<Face_Amount>1.00</Face_Amount>
 						</Data>
 					</Request>';
 	$url = 'https://leads.usacoverage.com/apiXML.php';
