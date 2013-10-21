@@ -67,7 +67,7 @@
 					  'PrimaryState'=>$vals['state'],
 					  'Primary_Zip'=>$vals['zip'],
 					  'Primary_BirthDate'=>$vals['dob_month'].'-'.$vals['dob_day'].'-'.$vals['dob_year'],
-					  'Primary_Tobacco'=>$vals['tobacco'],
+					  'Primary_Tobacco'=>(strtolower($vals['tobacco']) == 'yes') ? 'true':'false',
 					  'Primary_Notes'=>'',
 					  'Driver1_DlState'=>$vals['state'],
 					  'Driver1_MaritalStatus'=>$vals['driver1maritalstatus'],
