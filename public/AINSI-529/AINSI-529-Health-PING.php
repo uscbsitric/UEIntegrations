@@ -1,5 +1,5 @@
 <?php
-	//require_once '../classes/pingpostCommon.php';
+	require_once '../classes/pingpostCommon.php';
 
 	function sendCurlRequest($url, $xmlPayload)
 	{
@@ -18,7 +18,6 @@
 		return $result;
 	}
 	
-	/*****
 	if (isset($argv[1]) && !empty($argv[1])) {
 		$leadid = $argv[1];
 	} else {
@@ -39,7 +38,6 @@
 	
 	$postStringVals = json_decode($lmsData['poststring'], true);
 	$vals = array_merge($lmsData,$postStringVals, $_POST);
-	*****/
 
 
 	$xmlPayload = '<?xml version="1.0"?>
