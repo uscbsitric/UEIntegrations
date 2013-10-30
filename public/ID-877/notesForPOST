@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<Request>
+	<Key></Key>
+	<API_Action></API_Action>
+	<Mode></Mode>
+	<Allowed_Times_Sold></Allowed_Times_Sold>
+	<Lead_ID></Lead_ID>
+	<TYPE></TYPE>
+	<Test_Lead></Test_Lead>
+	<Data>
+		<Landing_Page></Landing_Page>
+		<IP_Address></IP_Address>
+		<Pub_ID></Pub_ID>
+		<First_Name></First_Name>
+		<Last_Name></Last_Name>
+		<Email></Email>
+		<Home_Phone></Home_Phone>
+		<Work_Phone></Work_Phone>
+		<Street_Address></Street_Address>
+		<City></City>
+		<Driver1_Policy_Expiration_Date></Driver1_Policy_Expiration_Date>
+		<Driver1_Marital_Status></Driver1_Marital_Status>
+		<Driver1_Coverage_Type></Driver1_Coverage_Type>
+		<Driver1_Current_Coverage_Level></Driver1_Current_Coverage_Level>
+		<Driver1_Average_One_Way_Mileage></Driver1_Average_One_Way_Mileage>
+		<Driver1_Education></Driver1_Education>
+		<Driver1_Occupation></Driver1_Occupation>
+		<Veh1_Primary_Driver></Veh1_Primary_Driver>
+		<Veh1_Year></Veh1_Year>
+		<Veh1_Make></Veh1_Make>
+		<Veh1_Model></Veh1_Model>
+		<Veh1_Primary_Use></Veh1_Primary_Use>
+		<Veh1_Annual_Mileage></Veh1_Annual_Mileage>
+		<Veh1_Ownership></Veh1_Ownership>
+		<Veh1_Car_Coverage></Veh1_Car_Coverage>
+		<Veh1_Desired_Collision_Coverage_Ded></Veh1_Desired_Collision_Coverage_Ded>
+		<Veh1_Desired_Comprehensive_Coverage_Ded></Veh1_Desired_Comprehensive_Coverage_Ded>
+		<Veh1_Trim></Veh1_Trim>
+		<Driver1_Age_When_First_Licensed></Driver1_Age_When_First_Licensed>
+		<Medical_Payments></Medical_Payments>
+		<Driver1_Current_Residence></Driver1_Current_Residence>
+		<Driver1_Salvaged_Vehicle></Driver1_Salvaged_Vehicle>
+	</Data>
+</Request>
+
